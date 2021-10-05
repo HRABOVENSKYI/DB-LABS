@@ -41,7 +41,7 @@ public abstract class AbstractServiceImpl<T, K> implements AbstractService<T, K>
         if (countOfUpdated == 1) {
             return beforeUpdate;
         }
-        throw new IllegalStateException("Failed to update Entity");
+        return null;
     }
 
     @Override

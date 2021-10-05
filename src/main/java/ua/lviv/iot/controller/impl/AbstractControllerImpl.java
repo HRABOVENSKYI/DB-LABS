@@ -9,7 +9,7 @@ public abstract class AbstractControllerImpl<T, K> implements AbstractController
 
     private AbstractService<T, K> abstractService;
 
-    public AbstractControllerImpl(AbstractService<T, K> abstractService) {
+    protected AbstractControllerImpl(AbstractService<T, K> abstractService) {
         this.abstractService = abstractService;
     }
 
