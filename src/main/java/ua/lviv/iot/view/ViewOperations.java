@@ -19,6 +19,7 @@ public class ViewOperations<T, K> {
     private static final String TEXT_ENTER_FIELD_OR_QUIT_FORMAT = "Enter %s or press '" + KEY_EXIT + "' to go back: ";
     private static final String TEXT_ENTER_FIELD_FORMAT = "Enter %s: ";
     private static final String ERROR_INVALID_VALUE = "Entered invalid value";
+    private static final String TEXT_CHOOSE_FIELD = "Choose field to update (enter name):";
 
     private static Scanner input = new Scanner(System.in, StandardCharsets.UTF_8);
 
@@ -78,6 +79,46 @@ public class ViewOperations<T, K> {
     }
 
     public void update() {
+        String keyMenu;
+        do {
+            System.out.println(String.format(TEXT_ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            keyMenu = input.nextLine().toUpperCase();
+            if (!keyMenu.equals(KEY_EXIT)) {
+                @SuppressWarnings("unchecked")
+                K id = (K) keyMenu;
+                T foundEntity = controller.findById(id);
+                if (foundEntity != null) {
+                    List<String> columnsNames = entityManager.getColumnsNames();
+                    while (true) {
+                        System.out.println(TEXT_CHOOSE_FIELD);
+                        columnsNames.forEach(colName -> System.out.println(" - " + colName));
+                        String inputName = input.nextLine();
+                        if (columnsNames.contains(inputName)) {
+                            Field[] fields = entityManager.getColumns().toArray(new Field[0]);
+                            Field foundField = getFieldByName(fields, inputName);
+                            inputValueForField(foundField, foundEntity);
+                            T oldEntity = controller.update(id, foundEntity);
+                            if (oldEntity != null) {
+                                T newEntity = controller.findById(id);
+                                List<T> entityHistory = new LinkedList();
+                                entityHistory.add(oldEntity);
+                                entityHistory.add(newEntity);
+                                formatter.printFormattedTable(entityHistory);
+                                return;
+                            } else {
+                                formatter.printCreateOrModifyError();
+                            }
+                        } else {
+                            formatter.printNoMatchesFound();
+                        }
+                    }
+                } else {
+                    formatter.printNoMatchesFound();
+                }
+            } else {
+                formatter.printNoMatchesFound();
+            }
+        } while (!keyMenu.equals(KEY_EXIT));
 
     }
 
@@ -125,5 +166,20 @@ public class ViewOperations<T, K> {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSSSSS");
         LocalDateTime dateTime = LocalDateTime.parse(inputText, dateFormat);
         return dateTime;
+    }
+
+    private Field getFieldByName(Field[] fields, String fieldName) {
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Column.class)) {
+                if (field.getAnnotation(Column.class).name().equals(fieldName)) {
+                    return field;
+                }
+            } else {
+                if (field.getName().equals(fieldName)) {
+                    return field;
+                }
+            }
+        }
+        return null;
     }
 }

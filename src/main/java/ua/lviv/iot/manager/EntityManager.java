@@ -36,11 +36,12 @@ public class EntityManager<T, K> {
 
     @SuppressWarnings("unchecked")
     public K getPrimaryKeyValue(T entity) throws IllegalAccessException {
-        return (K) Arrays.stream(fields)
+        Field field = Arrays.stream(fields)
                 .filter(f -> f.isAnnotationPresent(PrimaryKey.class))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Class doesn't have PrimaryKey"))
-                .get(entity);
+                .orElseThrow(() -> new IllegalStateException("Class doesn't have PrimaryKey"));
+        field.setAccessible(true);
+        return (K) field.get(entity);
     }
 
     public List<String> getColumnsNames() {

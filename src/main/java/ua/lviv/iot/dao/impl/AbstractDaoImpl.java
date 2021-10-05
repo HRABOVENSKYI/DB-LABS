@@ -94,6 +94,7 @@ public abstract class AbstractDaoImpl<T, K> implements AbstractDao<T, K> {
                 }
             } catch (IllegalAccessException e) {
                 System.out.println("Exception " + e.getClass() + " was thrown. Try again.");
+                e.printStackTrace();
             }
         }
         return 0;
