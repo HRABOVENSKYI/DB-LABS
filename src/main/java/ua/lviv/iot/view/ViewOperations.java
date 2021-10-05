@@ -6,9 +6,7 @@ import ua.lviv.iot.manager.EntityManager;
 
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -123,6 +121,22 @@ public class ViewOperations<T, K> {
     }
 
     public void delete() {
+        String keyMenu;
+        do {
+            System.out.println(String.format(TEXT_ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            keyMenu = input.nextLine().toUpperCase();
+            if (!keyMenu.equals(KEY_EXIT)) {
+                @SuppressWarnings("unchecked")
+                K id = (K) keyMenu;
+                T deletedEntity = controller.delete(id);
+                if (deletedEntity != null) {
+                    formatter.printEntity(deletedEntity);
+                    return;
+                } else {
+                    formatter.printNoMatchesFound();
+                }
+            }
+        } while (!keyMenu.equals(KEY_EXIT));
 
     }
 

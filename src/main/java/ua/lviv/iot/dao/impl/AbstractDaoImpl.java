@@ -103,7 +103,7 @@ public abstract class AbstractDaoImpl<T, K> implements AbstractDao<T, K> {
     @Override
     public int delete(K id) {
         if (clazz.isAnnotationPresent(Table.class)) {
-            String sql = String.format("DELETE FROM `%s` WHERE %s = ?");
+            String sql = String.format("DELETE FROM `%s` WHERE %s = ?", tableName, primaryKeyName);
 
             try (PreparedStatement ps = CONNECTION.prepareStatement(sql)) {
                 boolean isValueSet = mapper.setPreparedStatementByType(1, ps, id);
