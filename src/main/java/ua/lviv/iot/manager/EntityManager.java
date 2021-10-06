@@ -91,4 +91,24 @@ public class EntityManager<T, K> {
                 })
                 .collect(Collectors.toList());
     }
+
+    public Object[] getFieldsValuesArr(T entity) {
+        return Arrays.stream(fields)
+                .map(f -> {
+                    f.setAccessible(true);
+                    try {
+                        return f.get(entity) == null ? "" : f.get(entity);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return "null";
+                })
+                .toArray();
+    }
+
+    public String[] getFieldsNamesArr() {
+        return Arrays.stream(fields)
+                .map(f -> f.isAnnotationPresent(Column.class) ? f.getAnnotation(Column.class).name() : f.getName())
+                .toArray(String[]::new);
+    }
 }

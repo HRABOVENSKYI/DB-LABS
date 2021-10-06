@@ -26,7 +26,6 @@ public class Mapper<T, K> {
                 .forEach(f -> {
                     String name = f.isAnnotationPresent(Column.class) ? f.getAnnotation(Column.class).name() : f.getName();
                     Class<?> fType = f.getType();
-                    System.out.println("resultToEntity: " + fType + " " + f.getName());
                     f.setAccessible(true); // prevent IllegalAccessException to f
                     try {
                         if (fType == String.class) {
@@ -52,7 +51,6 @@ public class Mapper<T, K> {
         } else if (fieldType == String.class) {
             ps.setString(index, (String) value);
         } else if (fieldType == LocalDateTime.class) {
-            System.out.println(value);
             ps.setTimestamp(index, Timestamp.valueOf((LocalDateTime) value));
         } else if (fieldType == Boolean.class) {
             ps.setBoolean(index, (boolean) value);

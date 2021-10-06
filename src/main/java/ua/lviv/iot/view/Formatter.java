@@ -1,5 +1,6 @@
 package ua.lviv.iot.view;
 
+import dnl.utils.text.table.TextTable;
 import ua.lviv.iot.manager.EntityManager;
 
 import java.util.*;
@@ -18,12 +19,14 @@ public class Formatter<T, K> {
 
 
     public void printFormattedTable(List<T> entities) {
-        System.out.println(String.join("\t|\t", entityManager.getFieldsNames()));
-        System.out.println(BREAK);
-        for (T entity : entities) {
-            System.out.println(String.join("\t|\t", entityManager.getFieldsValues(entity)));
+        String[] fieldNames = entityManager.getFieldsNamesArr();
+        Object[][] fieldsValuesArr = new Object[entities.size()][fieldNames.length];
+        for (int i = 0; i < entities.size(); i++) {
+            fieldsValuesArr[i] = entityManager.getFieldsValuesArr(entities.get(i));
         }
-        System.out.println(BREAK + "\n");
+        TextTable tt = new TextTable(fieldNames, fieldsValuesArr);
+        tt.printTable();
+        System.out.println();
     }
 
     public void printNoMatchesFound() {
@@ -33,10 +36,11 @@ public class Formatter<T, K> {
     }
 
     public void printEntity(T entity) {
-        System.out.println(String.join("\t|\t", entityManager.getFieldsNames()));
-        System.out.println(BREAK);
-        System.out.println(String.join("\t|\t", entityManager.getFieldsValues(entity)));
-        System.out.println(BREAK + "\n");
+        String[] fieldNames = entityManager.getFieldsNamesArr();
+        Object[][] fieldsValuesArr = {entityManager.getFieldsValuesArr(entity)};
+        TextTable tt = new TextTable(fieldNames, fieldsValuesArr);
+        tt.printTable();
+        System.out.println();
     }
 
     public void printCreateOrModifyError() {

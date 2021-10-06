@@ -33,7 +33,6 @@ public class ViewOperations<T, K> {
 
     public void findAll() {
         List<T> entities = controller.findAll();
-        entities.forEach(System.out::println);
         if (!entities.isEmpty()) {
             formatter.printFormattedTable(entities);
         } else {
