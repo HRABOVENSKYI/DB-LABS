@@ -30,6 +30,7 @@ public abstract class AbstractServiceImpl<T, K> implements AbstractService<T, K>
         if (countOfCreated == 1) {
             List<T> entities = findAll();
             newEntity = entities.get(entities.size() - 1);
+
         }
         return newEntity;
     }

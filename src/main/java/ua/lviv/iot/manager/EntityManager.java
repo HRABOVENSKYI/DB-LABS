@@ -83,7 +83,7 @@ public class EntityManager<T, K> {
                 .map(f -> {
                     f.setAccessible(true);
                     try {
-                        return f.get(entity).toString();
+                        return f.get(entity) == null ? "" : f.get(entity).toString();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }

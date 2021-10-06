@@ -33,6 +33,7 @@ public class ViewOperations<T, K> {
 
     public void findAll() {
         List<T> entities = controller.findAll();
+        entities.forEach(System.out::println);
         if (!entities.isEmpty()) {
             formatter.printFormattedTable(entities);
         } else {
@@ -148,9 +149,11 @@ public class ViewOperations<T, K> {
         if (fieldType == Integer.class) {
             hint = "integer using [0-9] digits";
         } else if (fieldType == String.class) {
-            hint = "Pass any String :)";
-        } else if (fieldType == Timestamp.class) {
-            hint = "Pass timestamp in format yyyy-MM-dd hh:mm:ss.SSSSSS";
+            hint = "pass any String";
+        } else if (fieldType == LocalDateTime.class) {
+            hint = "pass timestamp in format yyyy-MM-ddThh:mm:ss";
+        } else if (fieldType == Boolean.TYPE) {
+            hint = "enter 0 if false and 1 if true";
         }
         while (true) {
             System.out.println(String.format(TEXT_ENTER_FIELD_FORMAT, String.format("%s (%s)", fieldName, hint)));
@@ -162,9 +165,11 @@ public class ViewOperations<T, K> {
                     field.set(entity, value);
                 } else if (fieldType == String.class) {
                     field.set(entity, inputText);
-                } else if (fieldType == Timestamp.class) {
-                    LocalDateTime localDateTime = parseTimestamp(inputText);
+                } else if (fieldType == LocalDateTime.class) {
+                    LocalDateTime localDateTime = LocalDateTime.parse(inputText);
                     field.set(entity, localDateTime);
+                } else if (fieldType == Boolean.TYPE) {
+                    field.set(entity, inputText.equals("0") ? Boolean.FALSE : Boolean.TRUE);
                 } else {
                     System.out.println(ERROR_INVALID_VALUE);
                     continue;
@@ -174,12 +179,6 @@ public class ViewOperations<T, K> {
                 System.out.println("IllegalAccessException: " + e.getMessage());
             }
         }
-    }
-
-    private LocalDateTime parseTimestamp(String inputText) {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSSSSS");
-        LocalDateTime dateTime = LocalDateTime.parse(inputText, dateFormat);
-        return dateTime;
     }
 
     private Field getFieldByName(Field[] fields, String fieldName) {

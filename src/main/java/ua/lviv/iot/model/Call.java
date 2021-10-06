@@ -20,7 +20,7 @@ public class Call {
     private Integer id;
 
     @Column(name = "reporter_phone_number")
-    private Integer reporterPhoneNumber;
+    private String reporterPhoneNumber;
 
     @Column(name = "short_description")
     private String shortDescription;

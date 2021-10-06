@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Mapper<T, K> {
@@ -25,14 +26,15 @@ public class Mapper<T, K> {
                 .forEach(f -> {
                     String name = f.isAnnotationPresent(Column.class) ? f.getAnnotation(Column.class).name() : f.getName();
                     Class<?> fType = f.getType();
+                    System.out.println("resultToEntity: " + fType + " " + f.getName());
                     f.setAccessible(true); // prevent IllegalAccessException to f
                     try {
                         if (fType == String.class) {
                             f.set(entity, resultSet.getString(name));
                         } else if (fType == Integer.class) {
                             f.set(entity, resultSet.getInt(name));
-                        } else if (fType == Timestamp.class) {
-                            f.set(entity, resultSet.getTimestamp(name));
+                        } else if (fType == LocalDateTime.class) {
+                            f.set(entity, resultSet.getTimestamp(name).toLocalDateTime());
                         }
                     } catch (SQLException e) {
                         System.out.println("SQLException: " + e.getMessage());
@@ -49,8 +51,11 @@ public class Mapper<T, K> {
             ps.setInt(index, (Integer) value);
         } else if (fieldType == String.class) {
             ps.setString(index, (String) value);
-        } else if (fieldType == Timestamp.class) {
-            ps.setTimestamp(index, (Timestamp) value);
+        } else if (fieldType == LocalDateTime.class) {
+            System.out.println(value);
+            ps.setTimestamp(index, Timestamp.valueOf((LocalDateTime) value));
+        } else if (fieldType == Boolean.class) {
+            ps.setBoolean(index, (boolean) value);
         } else {
             return false;
         }

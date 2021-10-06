@@ -63,6 +63,8 @@ public abstract class AbstractDaoImpl<T, K> implements AbstractDao<T, K> {
             String columnsParametersString = entityManager.generateColumnsParametersString();
             String sql = String.format("INSERT INTO `%s` (%s) VALUES (%s)", tableName, columnsNamesString,
                     columnsParametersString);
+            System.out.println(sql);
+            System.out.println(entity);
             try (PreparedStatement ps = CONNECTION.prepareStatement(sql)) {
                 mapper.fillColumnsInPreparedStatement(1, ps, entity);
                 return ps.executeUpdate();
