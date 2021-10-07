@@ -118,7 +118,7 @@ public class View {
      * Generate single table MENU METHODS
      */
     private Map<String, Printable> generateHospitalMenuMethods() {
-        HospitalController hospitalController = new HospitalControllerImpl();
+        AbstractController<Hospital, Integer> hospitalController = new HospitalControllerImpl();
         Formatter<Hospital, Integer> formatter = new Formatter<>(Hospital.class);
         ViewOperations<Hospital, Integer> hospitalOperation = new ViewOperations<>(hospitalController, formatter, Hospital.class);
 
@@ -134,7 +134,7 @@ public class View {
 
 
     private Map<String, Printable> generateInjuryMenuMethods() {
-        InjuryController injuryController = new InjuryControllerImpl();
+        AbstractController<Injury, Integer> injuryController = new InjuryControllerImpl();
         Formatter<Injury, Integer> formatter = new Formatter<>(Injury.class);
         ViewOperations<Injury, Integer> injuryOperation = new ViewOperations<>(injuryController, formatter, Injury.class);
 
@@ -148,7 +148,7 @@ public class View {
     }
 
     private Map<String, Printable> generateRescuerMenuMethods() {
-        RescuerController rescuerController = new RescuerControllerImpl();
+        AbstractController<Rescuer, Integer> rescuerController = new RescuerControllerImpl();
         Formatter<Rescuer, Integer> formatter = new Formatter<>(Rescuer.class);
         ViewOperations<Rescuer, Integer> rescuerOperation = new ViewOperations<>(rescuerController, formatter, Rescuer.class);
 
@@ -162,7 +162,7 @@ public class View {
     }
 
     private Map<String, Printable> generateReporterMenuMethods() {
-        ReporterController reporterController = new ReporterControllerImpl();
+        AbstractController<Reporter, String> reporterController = new ReporterControllerImpl();
         Formatter<Reporter, String> formatter = new Formatter<>(Reporter.class);
         ViewOperations<Reporter, String> reporterOperation = new ViewOperations<>(reporterController, formatter, Reporter.class);
 
@@ -176,7 +176,7 @@ public class View {
     }
 
     private Map<String, Printable> generateRescueVehicleMenuMethods() {
-        RescueVehicleController rescueVehicleController = new RescueVehicleControllerImpl();
+        AbstractController<RescueVehicle, String> rescueVehicleController = new RescueVehicleControllerImpl();
         Formatter<RescueVehicle, String> formatter = new Formatter<>(RescueVehicle.class);
         ViewOperations<RescueVehicle, String> rescueVehicleOperation = new ViewOperations<>(rescueVehicleController, formatter, RescueVehicle.class);
 
@@ -190,7 +190,7 @@ public class View {
     }
 
     private Map<String, Printable> generateCallAddressMenuMethods() {
-        CallAddressController callAddressController = new CallAddressControllerImpl();
+        AbstractController<CallAddress, Integer> callAddressController = new CallAddressControllerImpl();
         Formatter<CallAddress, Integer> formatter = new Formatter<>(CallAddress.class);
         ViewOperations<CallAddress, Integer> callAddressOperation = new ViewOperations<>(callAddressController, formatter, CallAddress.class);
 
@@ -204,7 +204,7 @@ public class View {
     }
 
     private Map<String, Printable> generateCallMenuMethods() {
-        CallController callController = new CallControllerImpl();
+        AbstractController<Call, Integer> callController = new CallControllerImpl();
         Formatter<Call, Integer> formatter = new Formatter<>(Call.class);
         ViewOperations<Call, Integer> callOperation = new ViewOperations<>(callController, formatter, Call.class);
 
