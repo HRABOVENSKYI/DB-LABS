@@ -1,8 +1,9 @@
 package ua.lviv.iot.service;
 
+import java.io.Serializable;
 import java.util.*;
 
-public interface AbstractService<T, K> {
+public interface AbstractService<T, K extends Serializable> {
     List<T> findAll();
 
     T findById(K id);

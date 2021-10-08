@@ -7,9 +7,10 @@ import org.hibernate.query.Query;
 import ua.lviv.iot.dao.AbstractDao;
 import ua.lviv.iot.hibernate.HibernateUtil;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class AbstractDaoImpl<T, K> implements AbstractDao<T, K> {
+public abstract class AbstractDaoImpl<T, K extends Serializable> implements AbstractDao<T, K> {
 
     private final Class<T> clazz;
     private final SessionFactory sessionFactory;
@@ -32,7 +33,12 @@ public abstract class AbstractDaoImpl<T, K> implements AbstractDao<T, K> {
 
     @Override
     public T findById(K id) {
-        return null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+            T entity = session.get(clazz, id);
+            transaction.commit();
+            return entity;
+        }
     }
 
     @Override

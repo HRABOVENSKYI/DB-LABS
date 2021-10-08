@@ -3,9 +3,10 @@ package ua.lviv.iot.service.impl;
 import ua.lviv.iot.dao.AbstractDao;
 import ua.lviv.iot.service.AbstractService;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class AbstractServiceImpl<T, K> implements AbstractService<T, K> {
+public abstract class AbstractServiceImpl<T, K extends Serializable> implements AbstractService<T, K> {
 
     private AbstractDao<T, K> abstractDao;
 

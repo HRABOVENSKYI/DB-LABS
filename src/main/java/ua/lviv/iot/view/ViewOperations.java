@@ -1,12 +1,14 @@
 package ua.lviv.iot.view;
 
+import org.hibernate.TypeMismatchException;
 import ua.lviv.iot.controller.AbstractController;
 
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class ViewOperations<T, K> {
+public class ViewOperations<T, K extends Serializable> {
 
     private static final String KEY_EXIT = "Q";
     private static final String TEXT_ENTER_FIELD_OR_QUIT_FORMAT = "Enter %s or press '" + KEY_EXIT + "' to go back: ";
@@ -35,7 +37,29 @@ public class ViewOperations<T, K> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void findById() {
+        String keyMenu;
+        do {
+            System.out.printf(TEXT_ENTER_FIELD_OR_QUIT_FORMAT, "id");
+            keyMenu = input.nextLine().toUpperCase();
+            if (!keyMenu.equals(KEY_EXIT)) {
+                T foundEntity;
+                try {
+                    Integer id = Integer.parseInt(keyMenu);
+                    foundEntity = controller.findById((K) id);
+                } catch (TypeMismatchException | NumberFormatException e) {
+                    String id = keyMenu;
+                    foundEntity = controller.findById((K) id);
+                }
+                if (foundEntity != null) {
+                    formatter.printEntity(foundEntity);
+                } else {
+                    formatter.printNoMatchesFound();
+                }
+
+            }
+        } while (!keyMenu.equals(KEY_EXIT));
     }
 
     public void create() {

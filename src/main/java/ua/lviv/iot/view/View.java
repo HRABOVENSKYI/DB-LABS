@@ -236,8 +236,7 @@ public class View {
     }
 
     private void printMenu(Map<String, String> keyName) {
-        keyName.entrySet().stream()
-                .forEach(es -> System.out.printf("%3s - %s%n", es.getKey(), es.getValue()));
+        keyName.entrySet().forEach(es -> System.out.printf("%3s - %s%n", es.getKey(), es.getValue()));
         System.out.printf("%3s - %s%n", KEY_EXIT, TEXT_GO_BACK);
     }
 }

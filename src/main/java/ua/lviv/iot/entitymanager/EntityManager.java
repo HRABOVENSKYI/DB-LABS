@@ -3,6 +3,7 @@ package ua.lviv.iot.entitymanager;
 import lombok.Getter;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.*;
 
