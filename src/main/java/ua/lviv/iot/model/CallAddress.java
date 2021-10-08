@@ -1,19 +1,21 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
 
+import javax.persistence.*;
+import java.util.*;
+
+@Entity
 @Table(name = "call_address")
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(of = "id")
 @EqualsAndHashCode(of = "id")
 public class CallAddress {
 
-    @PrimaryKey
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -34,4 +36,7 @@ public class CallAddress {
 
     @Column(name = "place")
     private String place;
+
+    @OneToMany(mappedBy = "callAddress", fetch = FetchType.EAGER)
+    private Set<Call> calls;
 }

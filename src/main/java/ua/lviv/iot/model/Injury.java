@@ -1,10 +1,10 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
 
+import javax.persistence.*;
+
+@Entity
 @Table(name = "injury")
 @NoArgsConstructor
 @Getter
@@ -13,7 +13,8 @@ import ua.lviv.iot.annotations.Table;
 @EqualsAndHashCode(of = "id")
 public class Injury {
 
-    @PrimaryKey
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -23,6 +24,7 @@ public class Injury {
     @Column(name = "diagnosis")
     private String diagnosis;
 
-    @Column(name = "hospital_id")
-    private String hospitalId;
+    @ManyToOne
+    @JoinColumn(name = "hospital_id", nullable = false)
+    private Hospital hospital;
 }

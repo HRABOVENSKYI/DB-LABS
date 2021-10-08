@@ -1,10 +1,11 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
+import ua.lviv.iot.model.enums.Position;
 
+import javax.persistence.*;
+
+@Entity
 @Table(name = "rescuer")
 @NoArgsConstructor
 @Getter
@@ -13,7 +14,8 @@ import ua.lviv.iot.annotations.Table;
 @EqualsAndHashCode(of = "id")
 public class Rescuer {
 
-    @PrimaryKey
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -23,10 +25,10 @@ public class Rescuer {
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "position")
-    private String position;
+    private Position position;
 
     @Column(name = "is_present")
     private boolean isPresent;
-
 }

@@ -1,10 +1,10 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
 
+import javax.persistence.*;
+
+@Entity(name = "rescue_vehicle")
 @Table(name = "rescue_vehicle")
 @NoArgsConstructor
 @Getter
@@ -13,7 +13,7 @@ import ua.lviv.iot.annotations.Table;
 @EqualsAndHashCode(of = "number")
 public class RescueVehicle {
 
-    @PrimaryKey
+    @Id
     @Column(name = "number")
     private String number;
 

@@ -1,19 +1,20 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
 
+import javax.persistence.*;
+
+@Entity
 @Table(name = "hospital")
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(of = "id")
 @EqualsAndHashCode(of = "id")
 public class Hospital {
 
-    @PrimaryKey
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 

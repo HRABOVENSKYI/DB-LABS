@@ -1,19 +1,20 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
 
+import javax.persistence.*;
+import java.util.*;
+
+@Entity
 @Table(name = "reporter")
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(of = "phoneNumber")
 @EqualsAndHashCode(of = "phoneNumber")
 public class Reporter {
 
-    @PrimaryKey
+    @Id
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -22,4 +23,7 @@ public class Reporter {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "reporter", fetch = FetchType.EAGER)
+    private Set<Call> calls;
 }
