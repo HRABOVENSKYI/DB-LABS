@@ -27,7 +27,7 @@ USE `Hrabovenskyi` ;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Hrabovenskyi`.`reporter`;
 CREATE TABLE `Hrabovenskyi`.`reporter` (
-  `phone_number` VARCHAR(12) NOT NULL,
+  `phone_number` VARCHAR(12) NOT NULL DEFAULT '380996613349',
   `surname` VARCHAR(50) NOT NULL,
   `name` VARCHAR(40) NULL,
   PRIMARY KEY (`phone_number`))
@@ -83,7 +83,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Hrabovenskyi`.`rescue_vehicle`;
 CREATE TABLE `Hrabovenskyi`.`rescue_vehicle` (
-  `number` VARCHAR(8) NOT NULL,
+  `number` VARCHAR(8) NOT NULL DEFAULT 'ZZZ452CD',
   `characteristics` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`number`))
 ENGINE = InnoDB;
