@@ -36,10 +36,10 @@ public abstract class AbstractServiceImpl<T, K extends Serializable> implements 
 
     @Override
     public T update(K id, T entity) {
-        T beforeUpdate = findById(id);
-        int countOfUpdated = abstractDao.update(entity);
-        if (countOfUpdated == 1) {
-            return beforeUpdate;
+        T oldEntity = findById(id);
+        T updated = abstractDao.update(entity);
+        if (updated != null) {
+            return oldEntity;
         }
         return null;
     }

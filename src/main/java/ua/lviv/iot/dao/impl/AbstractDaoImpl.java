@@ -1,13 +1,11 @@
 package ua.lviv.iot.dao.impl;
 
-import org.hibernate.PropertyValueException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.query.Query;
 import ua.lviv.iot.dao.AbstractDao;
 import ua.lviv.iot.hibernate.HibernateUtil;
 
+import javax.persistence.PersistenceException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -39,6 +37,12 @@ public abstract class AbstractDaoImpl<T, K extends Serializable> implements Abst
             T entity;
             try {
                 entity = session.get(clazz, id);
+            } catch (TypeMismatchException e) {
+                try {
+                    entity = session.get(clazz, Integer.parseInt((String) id));
+                } catch (ClassCastException | NumberFormatException ex) {
+                    return null;
+                }
             } catch (IllegalArgumentException e) {
                 return null;
             }
@@ -64,8 +68,19 @@ public abstract class AbstractDaoImpl<T, K extends Serializable> implements Abst
     }
 
     @Override
-    public int update(T entity) {
-        return 0;
+    @SuppressWarnings("unchecked")
+    public T update(T entity) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            Object updated = session.merge(entity);
+            transaction.commit();
+            return (T) updated;
+        } catch (PersistenceException e) {
+            System.out.println("Failed to persist entity. Try again!!!");
+            transaction.rollback();
+            return null;
+        }
     }
 
     @Override

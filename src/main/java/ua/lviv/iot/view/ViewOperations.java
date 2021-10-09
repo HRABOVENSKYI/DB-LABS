@@ -92,7 +92,51 @@ public class ViewOperations<T, K extends Serializable> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void update() {
+        String keyMenu;
+        do {
+            System.out.println(String.format(ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            keyMenu = input.nextLine().toUpperCase();
+            if (!keyMenu.equals(KEY_EXIT)) {
+                K id = (K) keyMenu;
+                T foundEntity;
+                try {
+                    Integer idd = Integer.parseInt(keyMenu);
+                    foundEntity = controller.findById((K) idd);
+                } catch (TypeMismatchException | NumberFormatException e) {
+                    foundEntity = controller.findById(id);
+                }
+                if (foundEntity != null) {
+                    List<String> inputFieldsNames = entityManager.getInputFieldsNames();
+                    while (true) {
+                        System.out.println(CHOOSE_FIELD);
+                        inputFieldsNames.forEach(colName -> System.out.println(" - " + colName));
+                        String inputName = input.nextLine();
+                        if (inputFieldsNames.contains(inputName)) {
+                            Field foundField = entityManager.getInputFieldByName(inputName);
+                            inputValueForField(foundField, foundEntity);
+                            T oldEntity = controller.update(id, foundEntity);
+                            if (oldEntity != null) {
+                                List<T> entityHistory = new LinkedList();
+                                entityHistory.add(oldEntity);
+                                entityHistory.add(foundEntity);
+                                formatter.printFormattedTable(entityHistory);
+                                return;
+                            } else {
+                                formatter.printCreateOrModifyError();
+                            }
+                        } else {
+                            formatter.printNoMatchesFound();
+                        }
+                    }
+                } else {
+                    formatter.printNoMatchesFound();
+                }
+            } else {
+                formatter.printNoMatchesFound();
+            }
+        } while (!keyMenu.equals(KEY_EXIT));
     }
 
     public void delete() {
