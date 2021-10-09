@@ -45,12 +45,7 @@ public abstract class AbstractServiceImpl<T, K extends Serializable> implements 
     }
 
     @Override
-    public T delete(K id) {
-        T beforeUpdate = findById(id);
-        int countOfUpdated = abstractDao.delete(id);
-        if (countOfUpdated == 1) {
-            return beforeUpdate;
-        }
-        return null;
+    public void delete(T entity) {
+        abstractDao.delete(entity);
     }
 }

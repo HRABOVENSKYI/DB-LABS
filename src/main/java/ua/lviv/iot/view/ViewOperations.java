@@ -10,6 +10,7 @@ import ua.lviv.iot.service.impl.*;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
+import javax.persistence.PersistenceException;
 import java.io.Serializable;
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
@@ -140,7 +141,35 @@ public class ViewOperations<T, K extends Serializable> {
         } while (!keyMenu.equals(KEY_EXIT));
     }
 
+    @SuppressWarnings("unchecked")
     public void delete() {
+        String keyMenu;
+        do {
+            System.out.println(String.format(ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            keyMenu = input.nextLine().toUpperCase();
+            if (!keyMenu.equals(KEY_EXIT)) {
+                K id = (K) keyMenu;
+                T foundEntity;
+                try {
+                    Integer idd = Integer.parseInt(keyMenu);
+                    foundEntity = controller.findById((K) idd);
+                } catch (TypeMismatchException | NumberFormatException e) {
+                    foundEntity = controller.findById(id);
+                }
+                if (foundEntity != null) {
+                    try {
+                        controller.delete(foundEntity);
+                        formatter.printEntity(foundEntity);
+                    } catch (PersistenceException e) {
+                        System.out.println("Deletion of this entity is forbidden!!!");
+                    }
+                } else {
+                    formatter.printNoMatchesFound();
+                }
+            } else {
+                formatter.printNoMatchesFound();
+            }
+        } while (!keyMenu.equals(KEY_EXIT));
     }
 
     private void inputValueForField(Field field, T entity) {

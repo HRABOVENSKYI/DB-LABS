@@ -12,5 +12,5 @@ public interface AbstractDao<T, K extends Serializable> {
 
     T update(T entity);
 
-    int delete(K id);
+    void delete(T entity);
 }

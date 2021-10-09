@@ -85,7 +85,11 @@ public abstract class AbstractDaoImpl<T, K extends Serializable> implements Abst
     }
 
     @Override
-    public int delete(K id) {
-        return 0;
+    public void delete(T entity) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        }
     }
 }

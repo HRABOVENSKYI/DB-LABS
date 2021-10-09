@@ -12,5 +12,5 @@ public interface AbstractController<T, K extends Serializable> {
 
     T update(K id, T entity);
 
-    T delete(K id);
+    void delete(T entity);
 }

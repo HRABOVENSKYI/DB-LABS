@@ -35,7 +35,7 @@ public abstract class AbstractControllerImpl<T, K extends Serializable> implemen
     }
 
     @Override
-    public T delete(K id) {
-        return abstractService.delete(id);
+    public void delete(T entity) {
+        abstractService.delete(entity);
     }
 }
