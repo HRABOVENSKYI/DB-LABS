@@ -77,8 +77,9 @@ public abstract class AbstractDaoImpl<T, K extends Serializable> implements Abst
             transaction.commit();
             return (T) updated;
         } catch (PersistenceException e) {
-            System.out.println("Failed to persist entity. Try again!!!");
-            transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             return null;
         }
     }

@@ -125,6 +125,7 @@ public class ViewOperations<T, K extends Serializable> {
                                 return;
                             } else {
                                 formatter.printCreateOrModifyError();
+                                break;
                             }
                         } else {
                             formatter.printNoMatchesFound();
