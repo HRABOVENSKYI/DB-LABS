@@ -14,9 +14,9 @@ import java.io.Serializable;
 @EqualsAndHashCode(of = {"callId", "rescueVehicleNumber"})
 public class CallRescueVehicleId implements Serializable {
 
-    @Column(name = "call_id")
+    @Column(name = "call_id", nullable = false)
     private Integer callId;
 
-    @Column(name = "rescue_vehicle_number", length = 8)
+    @Column(name = "rescue_vehicle_number", nullable = false, length = 8)
     private String rescueVehicleNumber;
 }

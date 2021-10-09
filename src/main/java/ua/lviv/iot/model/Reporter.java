@@ -15,10 +15,10 @@ import java.util.*;
 public class Reporter {
 
     @Id
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
     @Column(name = "name")

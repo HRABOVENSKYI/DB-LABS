@@ -119,8 +119,7 @@ public class View {
      */
     private Map<String, Printable> generateHospitalMenuMethods() {
         AbstractController<Hospital, Integer> hospitalController = new HospitalControllerImpl();
-        Formatter<Hospital> formatter = new Formatter<>(Hospital.class);
-        ViewOperations<Hospital, Integer> hospitalOperation = new ViewOperations<>(hospitalController, formatter, Hospital.class);
+        ViewOperations<Hospital, Integer> hospitalOperation = new ViewOperations<>(hospitalController, Hospital.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", hospitalOperation::findAll);
@@ -135,8 +134,7 @@ public class View {
 
     private Map<String, Printable> generateInjuryMenuMethods() {
         AbstractController<Injury, Integer> injuryController = new InjuryControllerImpl();
-        Formatter<Injury> formatter = new Formatter<>(Injury.class);
-        ViewOperations<Injury, Integer> injuryOperation = new ViewOperations<>(injuryController, formatter, Injury.class);
+        ViewOperations<Injury, Integer> injuryOperation = new ViewOperations<>(injuryController, Injury.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", injuryOperation::findAll);
@@ -149,8 +147,7 @@ public class View {
 
     private Map<String, Printable> generateRescuerMenuMethods() {
         AbstractController<Rescuer, Integer> rescuerController = new RescuerControllerImpl();
-        Formatter<Rescuer> formatter = new Formatter<>(Rescuer.class);
-        ViewOperations<Rescuer, Integer> rescuerOperation = new ViewOperations<>(rescuerController, formatter, Rescuer.class);
+        ViewOperations<Rescuer, Integer> rescuerOperation = new ViewOperations<>(rescuerController, Rescuer.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", rescuerOperation::findAll);
@@ -163,8 +160,7 @@ public class View {
 
     private Map<String, Printable> generateReporterMenuMethods() {
         AbstractController<Reporter, String> reporterController = new ReporterControllerImpl();
-        Formatter<Reporter> formatter = new Formatter<>(Reporter.class);
-        ViewOperations<Reporter, String> reporterOperation = new ViewOperations<>(reporterController, formatter, Reporter.class);
+        ViewOperations<Reporter, String> reporterOperation = new ViewOperations<>(reporterController, Reporter.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", reporterOperation::findAll);
@@ -177,8 +173,7 @@ public class View {
 
     private Map<String, Printable> generateRescueVehicleMenuMethods() {
         AbstractController<RescueVehicle, String> rescueVehicleController = new RescueVehicleControllerImpl();
-        Formatter<RescueVehicle> formatter = new Formatter<>(RescueVehicle.class);
-        ViewOperations<RescueVehicle, String> rescueVehicleOperation = new ViewOperations<>(rescueVehicleController, formatter, RescueVehicle.class);
+        ViewOperations<RescueVehicle, String> rescueVehicleOperation = new ViewOperations<>(rescueVehicleController, RescueVehicle.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", rescueVehicleOperation::findAll);
@@ -191,8 +186,7 @@ public class View {
 
     private Map<String, Printable> generateCallAddressMenuMethods() {
         AbstractController<CallAddress, Integer> callAddressController = new CallAddressControllerImpl();
-        Formatter<CallAddress> formatter = new Formatter<>(CallAddress.class);
-        ViewOperations<CallAddress, Integer> callAddressOperation = new ViewOperations<>(callAddressController, formatter, CallAddress.class);
+        ViewOperations<CallAddress, Integer> callAddressOperation = new ViewOperations<>(callAddressController, CallAddress.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", callAddressOperation::findAll);
@@ -205,8 +199,7 @@ public class View {
 
     private Map<String, Printable> generateCallMenuMethods() {
         AbstractController<Call, Integer> callController = new CallControllerImpl();
-        Formatter<Call> formatter = new Formatter<>(Call.class);
-        ViewOperations<Call, Integer> callOperation = new ViewOperations<>(callController, formatter, Call.class);
+        ViewOperations<Call, Integer> callOperation = new ViewOperations<>(callController, Call.class);
 
         Map<String, Printable> menuMethods = new LinkedHashMap<>();
         menuMethods.put("1", callOperation::findAll);
@@ -236,7 +229,7 @@ public class View {
     }
 
     private void printMenu(Map<String, String> keyName) {
-        keyName.entrySet().forEach(es -> System.out.printf("%3s - %s%n", es.getKey(), es.getValue()));
+        keyName.forEach((key, value) -> System.out.printf("%3s - %s%n", key, value));
         System.out.printf("%3s - %s%n", KEY_EXIT, TEXT_GO_BACK);
     }
 }

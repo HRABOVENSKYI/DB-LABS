@@ -3,9 +3,13 @@ package ua.lviv.iot.entitymanager;
 import lombok.Getter;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.stream.*;
 
 @Getter
 public class EntityManager<T> {
@@ -36,5 +40,12 @@ public class EntityManager<T> {
         return Arrays.stream(fields)
                 .map(f -> f.isAnnotationPresent(Column.class) ? f.getAnnotation(Column.class).name() : f.getName())
                 .toArray(String[]::new);
+    }
+
+    public List<Field> getInputFields() {
+        return Arrays.stream(fields)
+                .filter(f -> !(f.isAnnotationPresent(Id.class) && f.isAnnotationPresent(GeneratedValue.class))
+                        && !f.isAnnotationPresent(OneToMany.class))
+                .collect(Collectors.toList());
     }
 }

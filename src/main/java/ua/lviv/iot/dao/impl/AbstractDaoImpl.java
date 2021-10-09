@@ -1,5 +1,6 @@
 package ua.lviv.iot.dao.impl;
 
+import org.hibernate.PropertyValueException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -35,15 +36,31 @@ public abstract class AbstractDaoImpl<T, K extends Serializable> implements Abst
     public T findById(K id) {
         try (Session session = sessionFactory.getCurrentSession()) {
             Transaction transaction = session.beginTransaction();
-            T entity = session.get(clazz, id);
+            T entity;
+            try {
+                entity = session.get(clazz, id);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
             transaction.commit();
             return entity;
         }
     }
 
     @Override
-    public int create(T entity) {
-        return 0;
+    @SuppressWarnings("unchecked")
+    public K create(T entity) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+            Object id;
+            try {
+                id = session.save(entity);
+            } catch (PropertyValueException e) {
+                return null;
+            }
+            transaction.commit();
+            return (K) id;
+        }
     }
 
     @Override

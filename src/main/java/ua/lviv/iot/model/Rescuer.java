@@ -16,19 +16,19 @@ public class Rescuer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "position")
+    @Column(name = "position", nullable = false)
     private Position position;
 
-    @Column(name = "is_present")
+    @Column(name = "is_present", nullable = false)
     private boolean isPresent;
 }

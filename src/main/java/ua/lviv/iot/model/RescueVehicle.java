@@ -14,9 +14,9 @@ import javax.persistence.*;
 public class RescueVehicle {
 
     @Id
-    @Column(name = "number")
+    @Column(name = "number", nullable = false)
     private String number;
 
-    @Column(name = "characteristics")
+    @Column(name = "characteristics", nullable = false)
     private String characteristics;
 }

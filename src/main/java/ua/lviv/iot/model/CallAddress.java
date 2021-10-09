@@ -16,13 +16,13 @@ public class CallAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "region")
+    @Column(name = "region", nullable = false)
     private String region;
 
-    @Column(name = "city_or_village")
+    @Column(name = "city_or_village", nullable = false)
     private String cityOrVillage;
 
     @Column(name = "street")

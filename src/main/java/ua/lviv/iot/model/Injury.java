@@ -15,13 +15,13 @@ public class Injury {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "diagnosis")
+    @Column(name = "diagnosis", nullable = false)
     private String diagnosis;
 
     @ManyToOne

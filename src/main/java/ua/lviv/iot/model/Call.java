@@ -17,16 +17,16 @@ public class Call {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "short_description")
+    @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
     @Column(name = "detailed_description")
     private String detailedDescription;
 
-    @Column(name = "call_time")
+    @Column(name = "call_time", nullable = false)
     private LocalDateTime callTime;
 
     @ManyToOne

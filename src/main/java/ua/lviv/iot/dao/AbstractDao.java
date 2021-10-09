@@ -8,7 +8,7 @@ public interface AbstractDao<T, K extends Serializable> {
 
     T findById(K id);
 
-    int create(T entity);
+    K create(T entity);
 
     int update(T entity);
 

@@ -8,7 +8,7 @@ import java.util.*;
 
 public abstract class AbstractServiceImpl<T, K extends Serializable> implements AbstractService<T, K> {
 
-    private AbstractDao<T, K> abstractDao;
+    private final AbstractDao<T, K> abstractDao;
 
     protected AbstractServiceImpl(AbstractDao<T, K> abstractDao) {
         this.abstractDao = abstractDao;
@@ -26,12 +26,10 @@ public abstract class AbstractServiceImpl<T, K extends Serializable> implements 
 
     @Override
     public T create(T entity) {
-        int countOfCreated = abstractDao.create(entity);
+        K id = abstractDao.create(entity);
         T newEntity = null;
-        if (countOfCreated == 1) {
-            List<T> entities = findAll();
-            newEntity = entities.get(entities.size() - 1);
-
+        if (!(Objects.equals(id, "") || Objects.equals(id, 0))) {
+            newEntity = findById(id);
         }
         return newEntity;
     }

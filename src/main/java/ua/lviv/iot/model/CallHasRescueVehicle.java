@@ -25,10 +25,10 @@ public class CallHasRescueVehicle {
     @MapsId("rescueVehicleNumber")
     private RescueVehicle rescue_vehicle;
 
-    @Column(name = "departure_time")
+    @Column(name = "departure_time", nullable = false)
     private LocalDateTime departureTime;
 
-    @Column(name = "return_time")
+    @Column(name = "return_time", nullable = false)
     private LocalDateTime returnTime;
 
     @Override
