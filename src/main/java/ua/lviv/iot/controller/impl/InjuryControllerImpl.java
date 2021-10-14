@@ -1,6 +1,5 @@
 package ua.lviv.iot.controller.impl;
 
-import ua.lviv.iot.controller.AbstractController;
 import ua.lviv.iot.model.Injury;
 import ua.lviv.iot.service.impl.InjuryServiceImpl;
 

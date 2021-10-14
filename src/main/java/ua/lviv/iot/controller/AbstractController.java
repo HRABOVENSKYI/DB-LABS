@@ -1,8 +1,9 @@
 package ua.lviv.iot.controller;
 
+import java.io.Serializable;
 import java.util.*;
 
-public interface AbstractController<T, K> {
+public interface AbstractController<T, K extends Serializable> {
     List<T> findAll();
 
     T findById(K id);
@@ -11,5 +12,5 @@ public interface AbstractController<T, K> {
 
     T update(K id, T entity);
 
-    T delete(K id);
+    void delete(T entity);
 }

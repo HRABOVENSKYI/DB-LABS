@@ -3,9 +3,10 @@ package ua.lviv.iot.controller.impl;
 import ua.lviv.iot.controller.AbstractController;
 import ua.lviv.iot.service.AbstractService;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class AbstractControllerImpl<T, K> implements AbstractController<T, K> {
+public abstract class AbstractControllerImpl<T, K extends Serializable> implements AbstractController<T, K> {
 
     private AbstractService<T, K> abstractService;
 
@@ -34,7 +35,7 @@ public abstract class AbstractControllerImpl<T, K> implements AbstractController
     }
 
     @Override
-    public T delete(K id) {
-        return abstractService.delete(id);
+    public void delete(T entity) {
+        abstractService.delete(entity);
     }
 }

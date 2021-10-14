@@ -1,17 +1,17 @@
 package ua.lviv.iot.view;
 
 import dnl.utils.text.table.TextTable;
-import ua.lviv.iot.manager.EntityManager;
+import ua.lviv.iot.entitymanager.EntityManager;
 
 import java.util.*;
 
-public class Formatter<T, K> {
+public class Formatter<T> {
 
     private static final String BREAK = "-------------------------------------------------------------";
     private static final String NO_MATCHES_FOUND = "No matches found";
     private static final String ERROR_CREATE_OR_MODIFY = "Unable to create or modify this object";
 
-    private final EntityManager<T, K> entityManager;
+    private final EntityManager<T> entityManager;
 
     public Formatter(Class<T> clazz) {
         this.entityManager = new EntityManager<>(clazz);

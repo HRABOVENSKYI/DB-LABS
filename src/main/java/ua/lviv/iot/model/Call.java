@@ -1,36 +1,45 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.annotations.Column;
-import ua.lviv.iot.annotations.PrimaryKey;
-import ua.lviv.iot.annotations.Table;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.*;
 
-@Table(name = "call")
+@Entity
+@Table(name = "`call`")
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(of = "id")
 @EqualsAndHashCode(of = "id")
 public class Call {
 
-    @PrimaryKey
-    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "reporter_phone_number")
-    private String reporterPhoneNumber;
-
-    @Column(name = "short_description")
+    @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
     @Column(name = "detailed_description")
     private String detailedDescription;
 
-    @Column(name = "call_address_id")
-    private Integer callAddressId;
-
-    @Column(name = "call_time")
+    @Column(name = "call_time", nullable = false)
     private LocalDateTime callTime;
+
+    @ManyToOne
+    @JoinColumn(name = "reporter_phone_number", nullable = false)
+    private Reporter reporter;
+
+    @ManyToOne
+    @JoinColumn(name = "call_address_id", nullable = false)
+    private CallAddress callAddress;
+
+    @OneToMany(mappedBy = "call", fetch = FetchType.EAGER)
+    private Set<CallHasRescuer> rescuers;
+
+    @OneToMany(mappedBy = "call", fetch = FetchType.EAGER)
+    private Set<CallHasRescueVehicle> rescueVehicles;
 }

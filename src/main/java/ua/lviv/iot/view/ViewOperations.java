@@ -1,33 +1,45 @@
 package ua.lviv.iot.view;
 
-import ua.lviv.iot.annotations.Column;
+import org.hibernate.TypeMismatchException;
 import ua.lviv.iot.controller.AbstractController;
-import ua.lviv.iot.manager.EntityManager;
+import ua.lviv.iot.entitymanager.EntityManager;
+import ua.lviv.iot.model.*;
+import ua.lviv.iot.model.enums.Position;
+import ua.lviv.iot.service.AbstractService;
+import ua.lviv.iot.service.impl.*;
 
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.PersistenceException;
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class ViewOperations<T, K> {
+public class ViewOperations<T, K extends Serializable> {
 
     private static final String KEY_EXIT = "Q";
-    private static final String TEXT_ENTER_FIELD_OR_QUIT_FORMAT = "Enter %s or press '" + KEY_EXIT + "' to go back: ";
-    private static final String TEXT_ENTER_FIELD_FORMAT = "Enter %s: ";
+    private static final String ENTER_FIELD_OR_QUIT_FORMAT = "Enter %s or press '" + KEY_EXIT + "' to go back: ";
+    private static final String ENTER_FIELD_FORMAT = "Enter %s: ";
+    private static final String ENTER_REQUIRED = "Field is required! Enter it!!!";
     private static final String ERROR_INVALID_VALUE = "Entered invalid value";
-    private static final String TEXT_CHOOSE_FIELD = "Choose field to update (enter name):";
+    private static final String ENTER_CORRECT_INTEGER = "This field must contain [0-9] digits. Try again!!!";
+    private static final String ENTER_CORRECT_LOCAL_DATE_TIME = "This field must match this pattern: yyyy-MM-ddThh:mm:ss. Also it must be valid! Try again!!!";
+    private static final String ENTER_CORRECT_POSITION = "This field must one of listed above! Try again!!!";
+    private static final String ENTER_CORRECT_BOOLEAN = "This field must either 0 or 1! Try again!!!";
+    private static final String CHOOSE_FIELD = "Choose field to update (enter name):";
 
-    private static Scanner input = new Scanner(System.in, StandardCharsets.UTF_8);
+    private static final Scanner input = new Scanner(System.in, StandardCharsets.UTF_8);
 
     private final AbstractController<T, K> controller;
-    private final Formatter<T, K> formatter;
-    private final EntityManager<T, K> entityManager;
+    private final Formatter<T> formatter;
+    private final EntityManager<T> entityManager;
 
-    public ViewOperations(AbstractController<T, K> controller, Formatter<T, K> formatter, Class<T> entityClass) {
+    public ViewOperations(AbstractController<T, K> controller, Class<T> entityClass) {
         this.controller = controller;
-        this.formatter = formatter;
+        this.formatter = new Formatter<>(entityClass);
         this.entityManager = new EntityManager<>(entityClass);
     }
 
@@ -40,15 +52,20 @@ public class ViewOperations<T, K> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void findById() {
         String keyMenu;
         do {
-            System.out.println(String.format(TEXT_ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            System.out.printf(ENTER_FIELD_OR_QUIT_FORMAT, "id");
             keyMenu = input.nextLine().toUpperCase();
             if (!keyMenu.equals(KEY_EXIT)) {
-                @SuppressWarnings("unchecked")
-                K id = (K) keyMenu;
-                T foundEntity = controller.findById(id);
+                T foundEntity;
+                try {
+                    Integer id = Integer.parseInt(keyMenu);
+                    foundEntity = controller.findById((K) id);
+                } catch (TypeMismatchException | NumberFormatException e) {
+                    foundEntity = controller.findById((K) keyMenu);
+                }
                 if (foundEntity != null) {
                     formatter.printEntity(foundEntity);
                 } else {
@@ -59,11 +76,11 @@ public class ViewOperations<T, K> {
     }
 
     public void create() {
-        Field[] columns = entityManager.getColumns().toArray(new Field[0]);
+        Field[] inputFields = entityManager.getInputFields().toArray(new Field[0]);
         try {
             T entity = entityManager.getClazz().getConstructor().newInstance();
-            for (Field column : columns) {
-                inputValueForField(column, entity);
+            for (Field field : inputFields) {
+                inputValueForField(field, entity);
             }
             T newEntity = controller.create(entity);
             if (newEntity != null) {
@@ -76,35 +93,40 @@ public class ViewOperations<T, K> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void update() {
         String keyMenu;
         do {
-            System.out.println(String.format(TEXT_ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            System.out.println(String.format(ENTER_FIELD_OR_QUIT_FORMAT, "id"));
             keyMenu = input.nextLine().toUpperCase();
             if (!keyMenu.equals(KEY_EXIT)) {
-                @SuppressWarnings("unchecked")
                 K id = (K) keyMenu;
-                T foundEntity = controller.findById(id);
+                T foundEntity;
+                try {
+                    Integer idd = Integer.parseInt(keyMenu);
+                    foundEntity = controller.findById((K) idd);
+                } catch (TypeMismatchException | NumberFormatException e) {
+                    foundEntity = controller.findById(id);
+                }
                 if (foundEntity != null) {
-                    List<String> columnsNames = entityManager.getColumnsNames();
+                    List<String> inputFieldsNames = entityManager.getInputFieldsNames();
                     while (true) {
-                        System.out.println(TEXT_CHOOSE_FIELD);
-                        columnsNames.forEach(colName -> System.out.println(" - " + colName));
+                        System.out.println(CHOOSE_FIELD);
+                        inputFieldsNames.forEach(colName -> System.out.println(" - " + colName));
                         String inputName = input.nextLine();
-                        if (columnsNames.contains(inputName)) {
-                            Field[] fields = entityManager.getColumns().toArray(new Field[0]);
-                            Field foundField = getFieldByName(fields, inputName);
+                        if (inputFieldsNames.contains(inputName)) {
+                            Field foundField = entityManager.getInputFieldByName(inputName);
                             inputValueForField(foundField, foundEntity);
                             T oldEntity = controller.update(id, foundEntity);
                             if (oldEntity != null) {
-                                T newEntity = controller.findById(id);
                                 List<T> entityHistory = new LinkedList();
                                 entityHistory.add(oldEntity);
-                                entityHistory.add(newEntity);
+                                entityHistory.add(foundEntity);
                                 formatter.printFormattedTable(entityHistory);
                                 return;
                             } else {
                                 formatter.printCreateOrModifyError();
+                                break;
                             }
                         } else {
                             formatter.printNoMatchesFound();
@@ -117,58 +139,103 @@ public class ViewOperations<T, K> {
                 formatter.printNoMatchesFound();
             }
         } while (!keyMenu.equals(KEY_EXIT));
-
     }
 
+    @SuppressWarnings("unchecked")
     public void delete() {
         String keyMenu;
         do {
-            System.out.println(String.format(TEXT_ENTER_FIELD_OR_QUIT_FORMAT, "id"));
+            System.out.println(String.format(ENTER_FIELD_OR_QUIT_FORMAT, "id"));
             keyMenu = input.nextLine().toUpperCase();
             if (!keyMenu.equals(KEY_EXIT)) {
-                @SuppressWarnings("unchecked")
                 K id = (K) keyMenu;
-                T deletedEntity = controller.delete(id);
-                if (deletedEntity != null) {
-                    formatter.printEntity(deletedEntity);
-                    return;
+                T foundEntity;
+                try {
+                    Integer idd = Integer.parseInt(keyMenu);
+                    foundEntity = controller.findById((K) idd);
+                } catch (TypeMismatchException | NumberFormatException e) {
+                    foundEntity = controller.findById(id);
+                }
+                if (foundEntity != null) {
+                    try {
+                        controller.delete(foundEntity);
+                        formatter.printEntity(foundEntity);
+                    } catch (PersistenceException e) {
+                        System.out.println("Deletion of this entity is forbidden!!!");
+                    }
                 } else {
                     formatter.printNoMatchesFound();
                 }
+            } else {
+                formatter.printNoMatchesFound();
             }
         } while (!keyMenu.equals(KEY_EXIT));
-
     }
 
     private void inputValueForField(Field field, T entity) {
-        Column columnAnnotation = field.getAnnotation(Column.class);
-        String fieldName = columnAnnotation.name();
+        String fieldName = getFieldName(field);
         Class<?> fieldType = field.getType();
-        String hint = null;
-        if (fieldType == Integer.class) {
-            hint = "integer using [0-9] digits";
-        } else if (fieldType == String.class) {
-            hint = "pass any String";
-        } else if (fieldType == LocalDateTime.class) {
-            hint = "pass timestamp in format yyyy-MM-ddThh:mm:ss";
-        } else if (fieldType == Boolean.TYPE) {
-            hint = "enter 0 if false and 1 if true";
-        }
+        getUserHintForField(fieldName, fieldType);
+
         while (true) {
-            System.out.println(String.format(TEXT_ENTER_FIELD_FORMAT, String.format("%s (%s)", fieldName, hint)));
             String inputText = input.nextLine();
+
+            if (isNonNullFieldEmpty(field, inputText)) continue;
+
             field.setAccessible(true);
+            // Fill field according to its type
             try {
                 if (fieldType == Integer.class) {
-                    Integer value = Integer.parseInt(inputText);
+                    Integer value = getValidatedInteger(inputText);
+                    if (value == null) continue;
                     field.set(entity, value);
                 } else if (fieldType == String.class) {
                     field.set(entity, inputText);
                 } else if (fieldType == LocalDateTime.class) {
-                    LocalDateTime localDateTime = LocalDateTime.parse(inputText);
+                    LocalDateTime localDateTime = getValidLocalDateTime(inputText);
+                    if (localDateTime == null) continue;
                     field.set(entity, localDateTime);
+                } else if (fieldType == Position.class) {
+                    Position position = getValidPosition(inputText);
+                    if (position == null) continue;
+                    field.set(entity, position);
                 } else if (fieldType == Boolean.TYPE) {
+                    if (!(inputText.equals("0") || inputText.equals("1"))) {
+                        System.out.println(ENTER_CORRECT_BOOLEAN);
+                        continue;
+                    }
                     field.set(entity, inputText.equals("0") ? Boolean.FALSE : Boolean.TRUE);
+                } else if (fieldType == Hospital.class) {
+                    Integer id = getValidatedInteger(inputText);
+                    if (id == null) continue;
+                    AbstractService<Hospital, Integer> hospitalService = new HospitalServiceImpl();
+                    field.set(entity, hospitalService.findById(id));
+                } else if (fieldType == Call.class) {
+                    Integer id = getValidatedInteger(inputText);
+                    if (id == null) continue;
+                    AbstractService<Call, Integer> callService = new CallServiceImpl();
+                    field.set(entity, callService.findById(id));
+                } else if (fieldType == Injury.class) {
+                    Integer id = getValidatedInteger(inputText);
+                    if (id == null) continue;
+                    AbstractService<Injury, Integer> injuryService = new InjuryServiceImpl();
+                    field.set(entity, injuryService.findById(id));
+                } else if (fieldType == RescueVehicle.class) {
+                    AbstractService<RescueVehicle, String> rescueVehicleService = new RescueVehicleServiceImpl();
+                    field.set(entity, rescueVehicleService.findById(inputText));
+                } else if (fieldType == Reporter.class) {
+                    AbstractService<Reporter, String> rescueVehicleService = new ReporterServiceImpl();
+                    field.set(entity, rescueVehicleService.findById(inputText));
+                } else if (fieldType == CallAddress.class) {
+                    Integer id = getValidatedInteger(inputText);
+                    if (id == null) continue;
+                    AbstractService<CallAddress, Integer> callAddressService = new CallAddressServiceImpl();
+                    field.set(entity, callAddressService.findById(id));
+                } else if (fieldType == Rescuer.class) {
+                    Integer id = getValidatedInteger(inputText);
+                    if (id == null) continue;
+                    AbstractService<Rescuer, Integer> rescuerService = new RescuerServiceImpl();
+                    field.set(entity, rescuerService.findById(id));
                 } else {
                     System.out.println(ERROR_INVALID_VALUE);
                     continue;
@@ -180,18 +247,83 @@ public class ViewOperations<T, K> {
         }
     }
 
-    private Field getFieldByName(Field[] fields, String fieldName) {
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Column.class)) {
-                if (field.getAnnotation(Column.class).name().equals(fieldName)) {
-                    return field;
-                }
-            } else {
-                if (field.getName().equals(fieldName)) {
-                    return field;
-                }
+    private void getUserHintForField(String fieldName, Class<?> fieldType) {
+        String hint = null;
+        if (fieldType == Integer.class || fieldType == Hospital.class || fieldType == Call.class
+                || fieldType == CallAddress.class || fieldType == Rescuer.class || fieldType == Injury.class) {
+            hint = "integer using [0-9] digits";
+        } else if (fieldType == String.class || fieldType == Reporter.class || fieldType == RescueVehicle.class) {
+            hint = "pass any String";
+        } else if (fieldType == LocalDateTime.class) {
+            hint = "pass timestamp in format yyyy-MM-ddThh:mm:ss";
+        } else if (fieldType == Boolean.TYPE) {
+            hint = "enter 0 if false and 1 if true";
+        } else if (fieldType == Position.class) {
+            hint = "type one of the fields below";
+        }
+        System.out.printf((ENTER_FIELD_FORMAT) + "%n", String.format("%s (%s)", fieldName, hint));
+        if (fieldType == Position.class) {
+            Position.stream().forEach(val -> System.out.println(" - " + val));
+        }
+    }
+
+    private boolean isNonNullFieldEmpty(Field field, String inputText) {
+        if (field.isAnnotationPresent(Column.class)) {
+            Column column = field.getAnnotation(Column.class);
+            if (!column.nullable() && inputText.equals("")) {
+                System.out.println(ENTER_REQUIRED);
+                return true;
+            }
+        } else if (field.isAnnotationPresent(JoinColumn.class)) {
+            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+            if (!joinColumn.nullable() && inputText.equals("")) {
+                System.out.println(ENTER_REQUIRED);
+                return true;
             }
         }
-        return null;
+        return false;
+    }
+
+    private Position getValidPosition(String inputText) {
+        Position position;
+        try {
+            position = Position.valueOf(inputText);
+        } catch (IllegalArgumentException e) {
+            System.out.println(ENTER_CORRECT_POSITION);
+            return null;
+        }
+        return position;
+    }
+
+    private LocalDateTime getValidLocalDateTime(String inputText) {
+        LocalDateTime localDateTime;
+        try {
+            localDateTime = LocalDateTime.parse(inputText);
+        } catch (DateTimeParseException e) {
+            System.out.println(ENTER_CORRECT_LOCAL_DATE_TIME);
+            return null;
+        }
+        return localDateTime;
+    }
+
+    private String getFieldName(Field field) {
+        String fieldName = null;
+        if (field.isAnnotationPresent(Column.class)) {
+            fieldName = field.getAnnotation(Column.class).name();
+        } else if (field.isAnnotationPresent(JoinColumn.class)) {
+            fieldName = field.getAnnotation(JoinColumn.class).name();
+        }
+        return fieldName;
+    }
+
+    private Integer getValidatedInteger(String inputText) {
+        int value;
+        try {
+            value = Integer.parseInt(inputText);
+        } catch (NumberFormatException e) {
+            System.out.println(ENTER_CORRECT_INTEGER);
+            return null;
+        }
+        return value;
     }
 }
