@@ -1,4 +1,4 @@
-package ua.lviv.iot.exception;
+package ua.lviv.iot.exception.handler;
 
 import org.springframework.http.HttpStatus;
 
