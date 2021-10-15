@@ -3,9 +3,10 @@ package ua.lviv.iot.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -20,10 +21,14 @@ public class CallAddress {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotBlank(message = "is required and must not be blank") // TODO: Complete validation, practice https://www.baeldung.com/javax-validation
+    @Size(min = 3, max = 100, message = "must be from 3 to 100 chars")
+    @NotBlank(message = "is required and must not be blank")
     @Column(name = "region", nullable = false)
     private String region;
 
+    // visit https://www.baeldung.com/javax-validation to lear more about validation
+
+    @Size(min = 3, max = 100, message = "must be from 3 to 100 chars")
     @NotBlank(message = "is required and must not be blank")
     @Column(name = "city_or_village", nullable = false)
     private String cityOrVillage;
@@ -40,6 +45,15 @@ public class CallAddress {
     @Column(name = "place")
     private String place;
 
-    @OneToMany(mappedBy = "callAddress")
+    @OneToMany(mappedBy = "callAddress", fetch = FetchType.EAGER)
     private Set<Call> calls;
+
+    public CallAddress(String region, String cityOrVillage, String street, String building, String flat, String place) {
+        this.region = region;
+        this.cityOrVillage = cityOrVillage;
+        this.street = street;
+        this.building = building;
+        this.flat = flat;
+        this.place = place;
+    }
 }

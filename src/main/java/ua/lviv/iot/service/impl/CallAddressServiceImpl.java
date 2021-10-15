@@ -3,10 +3,12 @@ package ua.lviv.iot.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dao.CallAddressDao;
+import ua.lviv.iot.exception.ForeignKeyConstraintException;
 import ua.lviv.iot.exception.NoDataFoundException;
 import ua.lviv.iot.model.CallAddress;
 import ua.lviv.iot.service.CallAddressService;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -33,15 +35,19 @@ public class CallAddressServiceImpl implements CallAddressService {
 
     @Override
     public CallAddress updateCallAddress(CallAddress callAddress) {
-        CallAddress oldCallAddress = getCallAddressById(callAddress.getId());
+        CallAddress oldCallAddress = getCallAddressById(callAddress.getId()); // throws runtime exception if not found by id
         callAddressDao.save(callAddress);
         return oldCallAddress;
     }
 
     @Override
     public CallAddress deleteCallAddressById(Integer id) {
-        CallAddress oldCallAddress = getCallAddressById(id);
-        callAddressDao.deleteById(id);
+        CallAddress oldCallAddress = getCallAddressById(id); // throws runtime exception if not found by id
+        try {
+            callAddressDao.deleteById(id);
+        } catch (Exception e) {
+            throw new ForeignKeyConstraintException("Unable to delete this entity because its id is used in child table");
+        }
         return oldCallAddress;
     }
 }

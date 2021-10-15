@@ -54,4 +54,19 @@ public class ApiExceptionHandler {
         // Return response entity
         return new ResponseEntity<>(apiException, badRequest);
     }
+
+    @ExceptionHandler(value = {ForeignKeyConstraintException.class})
+    public ResponseEntity<Object> handleForeignKeyConstraintException(ForeignKeyConstraintException e) {
+        // Create payload containing exception details
+        HttpStatus forbidden = HttpStatus.FORBIDDEN;
+
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                forbidden,
+                ZonedDateTime.now()
+        );
+
+        // Return response entity
+        return new ResponseEntity<>(apiException, forbidden);
+    }
 }
