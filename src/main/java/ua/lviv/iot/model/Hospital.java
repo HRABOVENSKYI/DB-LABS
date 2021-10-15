@@ -9,8 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(of = "id")
-@EqualsAndHashCode(of = "id")
 public class Hospital {
 
     @Id

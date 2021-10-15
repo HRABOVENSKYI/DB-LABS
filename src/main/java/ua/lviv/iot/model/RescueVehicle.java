@@ -9,8 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode(of = "number")
 public class RescueVehicle {
 
     @Id

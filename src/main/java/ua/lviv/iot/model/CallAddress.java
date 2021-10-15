@@ -3,6 +3,9 @@ package ua.lviv.iot.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 
 @Entity
@@ -10,8 +13,6 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(of = "id")
-@EqualsAndHashCode(of = "id")
 public class CallAddress {
 
     @Id
@@ -19,9 +20,11 @@ public class CallAddress {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @NotBlank(message = "is required and must not be blank") // TODO: Complete validation, practice https://www.baeldung.com/javax-validation
     @Column(name = "region", nullable = false)
     private String region;
 
+    @NotBlank(message = "is required and must not be blank")
     @Column(name = "city_or_village", nullable = false)
     private String cityOrVillage;
 
@@ -37,6 +40,6 @@ public class CallAddress {
     @Column(name = "place")
     private String place;
 
-    @OneToMany(mappedBy = "callAddress", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "callAddress")
     private Set<Call> calls;
 }

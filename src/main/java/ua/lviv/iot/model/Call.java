@@ -11,8 +11,6 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(of = "id")
-@EqualsAndHashCode(of = "id")
 public class Call {
 
     @Id
@@ -37,9 +35,9 @@ public class Call {
     @JoinColumn(name = "call_address_id", nullable = false)
     private CallAddress callAddress;
 
-    @OneToMany(mappedBy = "call", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "call")
     private Set<CallHasRescuer> rescuers;
 
-    @OneToMany(mappedBy = "call", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "call")
     private Set<CallHasRescueVehicle> rescueVehicles;
 }

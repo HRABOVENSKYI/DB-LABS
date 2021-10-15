@@ -97,7 +97,7 @@ CREATE TABLE `Hrabovenskyi`.`call_has_rescue_vehicle` (
   `call_id` INT NOT NULL,
   `rescue_vehicle_number` VARCHAR(8) NOT NULL,
   `departure_time` DATETIME(6) NOT NULL,
-  `return_time` DATETIME(6) NOT NULL,
+  `return_time` DATETIME(6),
   PRIMARY KEY (`call_id`, `rescue_vehicle_number`),
   INDEX `fk_call_has_rescue_vehicles_rescue_vehicles1_idx` (`rescue_vehicle_number` ASC) VISIBLE,
   INDEX `fk_call_has_rescue_vehicles_call1_idx` (`call_id` ASC) VISIBLE,

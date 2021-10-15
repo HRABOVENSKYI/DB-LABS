@@ -10,8 +10,6 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(of = "phoneNumber")
-@EqualsAndHashCode(of = "phoneNumber")
 public class Reporter {
 
     @Id
@@ -24,6 +22,6 @@ public class Reporter {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "reporter", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reporter")
     private Set<Call> calls;
 }
