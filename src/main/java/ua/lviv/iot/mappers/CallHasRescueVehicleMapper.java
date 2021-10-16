@@ -2,7 +2,6 @@ package ua.lviv.iot.mappers;
 
 import ua.lviv.iot.dto.callhasrescuevehicle.CallHasRescueVehicleDto;
 import ua.lviv.iot.model.CallHasRescueVehicle;
-import ua.lviv.iot.model.compositekey.CallRescueVehicleId;
 
 public class CallHasRescueVehicleMapper {
 

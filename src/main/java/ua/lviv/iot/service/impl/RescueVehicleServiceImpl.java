@@ -31,7 +31,7 @@ public class RescueVehicleServiceImpl implements RescueVehicleService {
     @Override
     public RescueVehicle getRescueVehicleById(String number) {
         return rescueVehicleDao.findById(number)
-                .orElseThrow(() -> new NoDataFoundException("Call address with id: " + number + " not found"));
+                .orElseThrow(() -> new NoDataFoundException("Entity with id: " + number + " not found"));
     }
 
     @Override

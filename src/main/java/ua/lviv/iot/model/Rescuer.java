@@ -4,6 +4,7 @@ import lombok.*;
 import ua.lviv.iot.model.enums.Position;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "rescuer")
@@ -29,4 +30,7 @@ public class Rescuer {
 
     @Column(name = "is_present", nullable = false)
     private boolean isPresent;
+
+    @OneToMany(mappedBy = "rescuer", fetch = FetchType.EAGER)
+    private Set<CallHasRescuer> calls;
 }

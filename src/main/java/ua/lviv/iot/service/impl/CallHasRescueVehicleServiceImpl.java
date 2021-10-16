@@ -54,7 +54,7 @@ public class CallHasRescueVehicleServiceImpl implements CallHasRescueVehicleServ
         String rescueVehicleId = callHasRescueVehicleDto.getRescueVehicleId();
         CallRescueVehicleId id = new CallRescueVehicleId(callId, rescueVehicleId);
         callHasRescueVehicleDao.findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Call address with id: " + id + " not found")); // throws exception if entity doesn't exist
+                .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found")); // throws exception if entity doesn't exist
         Call call = callService.getCallById(callId); // will throw exception if entity doesn't exist
         RescueVehicle rescueVehicle = rescueVehicleService.getRescueVehicleById(rescueVehicleId); // will throw exception if entity doesn't exist
         return callHasRescueVehicleDao.save(new CallHasRescueVehicle(
@@ -69,7 +69,7 @@ public class CallHasRescueVehicleServiceImpl implements CallHasRescueVehicleServ
     @Override
     public CallHasRescueVehicle deleteCallHasRescueVehicle(CallRescueVehicleId id) {
         CallHasRescueVehicle callHasRescueVehicle = callHasRescueVehicleDao.findById(id)
-                .orElseThrow(() -> new NoDataFoundException("Call address with id: " + id + " not found"));// throws exception if entity doesn't exist
+                .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));// throws exception if entity doesn't exist
         callHasRescueVehicleDao.deleteById(id);
         return callHasRescueVehicle;
     }
