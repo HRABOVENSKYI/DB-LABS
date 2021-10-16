@@ -21,8 +21,8 @@ public class CallAddressController {
     private final CallAddressService callAddressService;
 
     @PostMapping
-    CallAddress createCallAddress(final @Valid @RequestBody CallAddress callAddress) {
-        return callAddressService.createCallAddress(callAddress);
+    CallAddressDto createCallAddress(final @Valid @RequestBody CallAddress callAddress) {
+        return mapCallAddressToCallAddressDto(callAddressService.createCallAddress(callAddress));
     }
 
     @GetMapping
@@ -38,12 +38,12 @@ public class CallAddressController {
     }
 
     @PutMapping
-    CallAddress updateCallAddress(final @Valid @RequestBody CallAddress callAddress) {
-        return callAddressService.updateCallAddress(callAddress);
+    CallAddressDto updateCallAddress(final @Valid @RequestBody CallAddress callAddress) {
+        return mapCallAddressToCallAddressDto(callAddressService.updateCallAddress(callAddress));
     }
 
     @DeleteMapping("/{id}")
-    CallAddress deleteCallAddressById(final @PathVariable("id") Integer id) {
-        return callAddressService.deleteCallAddressById(id);
+    CallAddressDto deleteCallAddressById(final @PathVariable("id") Integer id) {
+        return mapCallAddressToCallAddressDto(callAddressService.deleteCallAddressById(id));
     }
 }

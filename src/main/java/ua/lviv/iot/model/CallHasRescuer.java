@@ -1,7 +1,7 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.model.composite_key.CallRescuerId;
+import ua.lviv.iot.model.compositekey.CallRescuerId;
 
 import javax.persistence.*;
 
@@ -26,11 +26,4 @@ public class CallHasRescuer {
     @OneToOne
     @JoinColumn(name = "injury_id")
     private Injury injury;
-
-    @Override
-    public String toString() {
-        return "Rescuer{" +
-                "id=" + rescuer.getId() +
-                '}';
-    }
 }

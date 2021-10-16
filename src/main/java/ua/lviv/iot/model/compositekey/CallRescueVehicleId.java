@@ -1,4 +1,4 @@
-package ua.lviv.iot.model.composite_key;
+package ua.lviv.iot.model.compositekey;
 
 import lombok.*;
 

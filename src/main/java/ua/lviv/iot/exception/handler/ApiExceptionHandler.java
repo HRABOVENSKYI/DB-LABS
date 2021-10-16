@@ -6,6 +6,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ua.lviv.iot.exception.EntityAlreadyExistsException;
 import ua.lviv.iot.exception.ForeignKeyConstraintException;
 import ua.lviv.iot.exception.NoDataFoundException;
 
@@ -67,5 +68,20 @@ public class ApiExceptionHandler {
 
         // Return response entity
         return new ResponseEntity<>(apiException, forbidden);
+    }
+
+    @ExceptionHandler(value = {EntityAlreadyExistsException.class})
+    public ResponseEntity<Object> handleEntityAlreadyExistsException(EntityAlreadyExistsException e) {
+        // Create payload containing exception details
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                badRequest,
+                ZonedDateTime.now()
+        );
+
+        // Return response entity
+        return new ResponseEntity<>(apiException, badRequest);
     }
 }

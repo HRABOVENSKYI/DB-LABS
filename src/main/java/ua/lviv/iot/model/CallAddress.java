@@ -3,9 +3,7 @@ package ua.lviv.iot.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -26,7 +24,7 @@ public class CallAddress {
     @Column(name = "region", nullable = false)
     private String region;
 
-    // visit https://www.baeldung.com/javax-validation to lear more about validation
+    // visit https://www.baeldung.com/javax-validation to learn more about validation
 
     @Size(min = 3, max = 100, message = "must be from 3 to 100 chars")
     @NotBlank(message = "is required and must not be blank")
@@ -47,13 +45,4 @@ public class CallAddress {
 
     @OneToMany(mappedBy = "callAddress", fetch = FetchType.EAGER)
     private Set<Call> calls;
-
-    public CallAddress(String region, String cityOrVillage, String street, String building, String flat, String place) {
-        this.region = region;
-        this.cityOrVillage = cityOrVillage;
-        this.street = street;
-        this.building = building;
-        this.flat = flat;
-        this.place = place;
-    }
 }

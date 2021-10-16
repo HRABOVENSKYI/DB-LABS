@@ -4,6 +4,7 @@ import ua.lviv.iot.dto.calladdress.CallAddressDto;
 import ua.lviv.iot.model.Call;
 import ua.lviv.iot.model.CallAddress;
 
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class CallAddressMapper {
@@ -20,9 +21,11 @@ public class CallAddressMapper {
                 callAddress.getBuilding(),
                 callAddress.getFlat(),
                 callAddress.getPlace(),
-                callAddress.getCalls().stream()
-                        .map(Call::getId)
-                        .collect(Collectors.toSet())
+                callAddress.getCalls() != null ?
+                        callAddress.getCalls().stream()
+                                .map(Call::getId)
+                                .collect(Collectors.toSet())
+                        : Collections.emptySet()
         );
     }
 }
