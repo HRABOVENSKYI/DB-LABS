@@ -35,6 +35,7 @@ public class CallAddressServiceImpl implements CallAddressService {
 
     @Override
     public CallAddress updateCallAddress(CallAddress callAddress) {
+        getCallAddressById(callAddress.getId()); // throws exception if entity doesn't exist
         return callAddressDao.save(callAddress);
     }
 

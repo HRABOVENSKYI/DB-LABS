@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.lviv.iot.dao.CallHasRescueVehicleDao;
 import ua.lviv.iot.dto.callhasrescuevehicle.CallHasRescueVehicleDto;
 import ua.lviv.iot.exception.EntityAlreadyExistsException;
+import ua.lviv.iot.exception.NoDataFoundException;
 import ua.lviv.iot.model.Call;
 import ua.lviv.iot.model.CallHasRescueVehicle;
 import ua.lviv.iot.model.RescueVehicle;
@@ -48,7 +49,28 @@ public class CallHasRescueVehicleServiceImpl implements CallHasRescueVehicleServ
     }
 
     @Override
-    public CallHasRescueVehicle updateCallHasRescueVehicle(CallHasRescueVehicle rescueVehicle) {
-        return callHasRescueVehicleDao.save(rescueVehicle);
+    public CallHasRescueVehicle updateCallHasRescueVehicle(CallHasRescueVehicleDto callHasRescueVehicleDto) {
+        Integer callId = callHasRescueVehicleDto.getCallId();
+        String rescueVehicleId = callHasRescueVehicleDto.getRescueVehicleId();
+        CallRescueVehicleId id = new CallRescueVehicleId(callId, rescueVehicleId);
+        callHasRescueVehicleDao.findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Call address with id: " + id + " not found")); // throws exception if entity doesn't exist
+        Call call = callService.getCallById(callId); // will throw exception if entity doesn't exist
+        RescueVehicle rescueVehicle = rescueVehicleService.getRescueVehicleById(rescueVehicleId); // will throw exception if entity doesn't exist
+        return callHasRescueVehicleDao.save(new CallHasRescueVehicle(
+                id,
+                call,
+                rescueVehicle,
+                callHasRescueVehicleDto.getDepartureTime(),
+                callHasRescueVehicleDto.getReturnTime()
+        ));
+    }
+
+    @Override
+    public CallHasRescueVehicle deleteCallHasRescueVehicle(CallRescueVehicleId id) {
+        CallHasRescueVehicle callHasRescueVehicle = callHasRescueVehicleDao.findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Call address with id: " + id + " not found"));// throws exception if entity doesn't exist
+        callHasRescueVehicleDao.deleteById(id);
+        return callHasRescueVehicle;
     }
 }

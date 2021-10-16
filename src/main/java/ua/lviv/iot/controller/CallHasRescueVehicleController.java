@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.callhasrescuevehicle.CallHasRescueVehicleDto;
 import ua.lviv.iot.mappers.CallHasRescueVehicleMapper;
-import ua.lviv.iot.model.CallHasRescueVehicle;
+import ua.lviv.iot.model.compositekey.CallRescueVehicleId;
 import ua.lviv.iot.service.CallHasRescueVehicleService;
 
 import javax.validation.Valid;
@@ -18,24 +18,34 @@ import static ua.lviv.iot.mappers.CallHasRescueVehicleMapper.*;
 @RequestMapping("/api/call-has-rescue-vehicle")
 public class CallHasRescueVehicleController {
 
-    private final CallHasRescueVehicleService rescueVehicleService;
+    private final CallHasRescueVehicleService callHasRescueVehicleService;
 
     @PostMapping
-    CallHasRescueVehicleDto createCallHasRescueVehicle(final @Valid @RequestBody CallHasRescueVehicleDto rescueVehicleDto) {
+    CallHasRescueVehicleDto createCallHasRescueVehicle(
+            final @Valid @RequestBody CallHasRescueVehicleDto rescueVehicleDto) {
         return mapCallHasRescueVehicleToCallHasRescueVehicleDto(
-                rescueVehicleService.createCallHasRescueVehicle(rescueVehicleDto));
+                callHasRescueVehicleService.createCallHasRescueVehicle(rescueVehicleDto));
     }
 
     @GetMapping
     List<CallHasRescueVehicleDto> getAllCallHasRescueVehicles() {
-        return rescueVehicleService.getAllCallHasRescueVehicles().stream()
+        return callHasRescueVehicleService.getAllCallHasRescueVehicles().stream()
                 .map(CallHasRescueVehicleMapper::mapCallHasRescueVehicleToCallHasRescueVehicleDto)
                 .collect(Collectors.toList());
     }
 
 
     @PutMapping
-    CallHasRescueVehicleDto updateCallHasRescueVehicle(final @Valid @RequestBody CallHasRescueVehicle callHasRescueVehicle) {
-        return mapCallHasRescueVehicleToCallHasRescueVehicleDto(rescueVehicleService.updateCallHasRescueVehicle(callHasRescueVehicle));
+    CallHasRescueVehicleDto updateCallHasRescueVehicle(
+            final @Valid @RequestBody CallHasRescueVehicleDto callHasRescueVehicleDto) {
+        return mapCallHasRescueVehicleToCallHasRescueVehicleDto(
+                callHasRescueVehicleService.updateCallHasRescueVehicle(callHasRescueVehicleDto));
+    }
+
+    @DeleteMapping
+    CallHasRescueVehicleDto deleteCallHasRescueVehicle(final @RequestParam("callId") Integer callId,
+                                                       final @RequestParam("resqueVehicleNumber") String number) {
+        return mapCallHasRescueVehicleToCallHasRescueVehicleDto(
+                callHasRescueVehicleService.deleteCallHasRescueVehicle(new CallRescueVehicleId(callId, number)));
     }
 }

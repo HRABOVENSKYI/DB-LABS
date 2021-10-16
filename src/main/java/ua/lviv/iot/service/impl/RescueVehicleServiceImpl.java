@@ -36,6 +36,7 @@ public class RescueVehicleServiceImpl implements RescueVehicleService {
 
     @Override
     public RescueVehicle updateRescueVehicle(RescueVehicle rescueVehicle) {
+        getRescueVehicleById(rescueVehicle.getNumber()); // throws exception if entity doesn't exist
         return rescueVehicleDao.save(rescueVehicle);
     }
 
