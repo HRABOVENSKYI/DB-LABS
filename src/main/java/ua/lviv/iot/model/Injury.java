@@ -31,4 +31,11 @@ public class Injury {
         this.diagnosis = diagnosis;
         this.hospital = hospital;
     }
+
+    public Injury(Integer id, String description, String diagnosis, Hospital hospital) {
+        this.id = id;
+        this.description = description;
+        this.diagnosis = diagnosis;
+        this.hospital = hospital;
+    }
 }

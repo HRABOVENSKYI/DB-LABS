@@ -30,4 +30,10 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalDao.findById(id)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));
     }
+
+    @Override
+    public Hospital updateHospital(Hospital hospital) {
+        getHospitalById(hospital.getId()); // will throw exception if entity doesn't exist
+        return hospitalDao.save(hospital);
+    }
 }

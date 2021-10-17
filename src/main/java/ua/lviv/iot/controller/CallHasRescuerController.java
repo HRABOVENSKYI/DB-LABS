@@ -30,4 +30,9 @@ public class CallHasRescuerController {
                 .map(CallHasRescuerMapper::mapCallHasRescuerToCallHasRescuerDto)
                 .collect(Collectors.toList());
     }
+
+    @PutMapping
+    CallHasRescuerDto updateCallHasRescuer(final @Valid @RequestBody CallHasRescuerDto callHasRescuerDto) {
+        return mapCallHasRescuerToCallHasRescuerDto(callHasRescuerService.updateCallHasRescuer(callHasRescuerDto));
+    }
 }

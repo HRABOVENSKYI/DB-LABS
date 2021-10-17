@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.call.CallDto;
 import ua.lviv.iot.dto.call.CreateUpdateCallDto;
 import ua.lviv.iot.mappers.CallMapper;
+import ua.lviv.iot.model.Call;
 import ua.lviv.iot.service.CallService;
 
 import javax.validation.Valid;
@@ -35,5 +36,10 @@ public class CallController {
     @GetMapping("/{id}")
     CallDto getCallById(final @PathVariable("id") Integer id) {
         return mapCallToCallDto(callService.getCallById(id));
+    }
+
+    @PutMapping
+    CallDto updateCall(final @Valid @RequestBody CreateUpdateCallDto createUpdateCallDto) {
+        return mapCallToCallDto(callService.updateCall(createUpdateCallDto));
     }
 }

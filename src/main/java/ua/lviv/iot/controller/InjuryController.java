@@ -35,4 +35,9 @@ public class InjuryController {
     InjuryDto getInjuryById(final @PathVariable("id") Integer id) {
         return mapInjuryToInjuryDto(injuryService.getInjuryById(id));
     }
+
+    @PutMapping
+    InjuryDto updateInjury(final @Valid @RequestBody InjuryDto injuryDto) {
+        return mapInjuryToInjuryDto(injuryService.updateInjury(injuryDto));
+    }
 }

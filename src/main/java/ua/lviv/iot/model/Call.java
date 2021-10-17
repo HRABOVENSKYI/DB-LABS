@@ -47,6 +47,16 @@ public class Call {
     @OneToMany(mappedBy = "call")
     private Set<CallHasRescueVehicle> rescueVehicles;
 
+    public Call(Integer id, String shortDescription, String detailedDescription, LocalDateTime callTime,
+                Reporter reporter, CallAddress callAddress) {
+        this.id = id;
+        this.shortDescription = shortDescription;
+        this.detailedDescription = detailedDescription;
+        this.callTime = callTime;
+        this.reporter = reporter;
+        this.callAddress = callAddress;
+    }
+
     public Call(String shortDescription, String detailedDescription, LocalDateTime callTime, Reporter reporter,
                 CallAddress callAddress) {
         this.shortDescription = shortDescription;

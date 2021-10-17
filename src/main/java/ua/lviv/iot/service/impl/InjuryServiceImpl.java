@@ -39,4 +39,16 @@ public class InjuryServiceImpl implements InjuryService {
         return injuryDao.findById(id)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));
     }
+
+    @Override
+    public Injury updateInjury(InjuryDto injuryDto) {
+        getInjuryById(injuryDto.getId()); // will throw exception if entity doesn't exist
+        Hospital hospital = hospitalService.getHospitalById(injuryDto.getHospitalId()); // will throw exception if entity doesn't exist
+        return injuryDao.save(new Injury(
+                injuryDto.getId(),
+                injuryDto.getDescription(),
+                injuryDto.getDiagnosis(),
+                hospital
+        ));
+    }
 }

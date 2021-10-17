@@ -11,4 +11,6 @@ public interface ReporterService {
     List<Reporter> getAllReporters();
 
     Reporter getReporterById(String phoneNumber);
+
+    Reporter updateReporter(Reporter reporter);
 }

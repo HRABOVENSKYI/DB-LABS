@@ -30,4 +30,10 @@ public class RescuerServiceImpl implements RescuerService {
         return rescuerDao.findById(id)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));
     }
+
+    @Override
+    public Rescuer updateRescuer(Rescuer rescuer) {
+        getRescuerById(rescuer.getId()); // will throw exception if entity doesn't exist
+        return rescuerDao.save(rescuer);
+    }
 }

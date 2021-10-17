@@ -54,4 +54,25 @@ public class CallServiceImpl implements CallService {
         return callDao.findById(id)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));
     }
+
+    @Override
+    public Call updateCall(CreateUpdateCallDto createUpdateCallDto) {
+        getCallById(createUpdateCallDto.getId()); // will throw exception if entity doesn't exist
+        Reporter reporter = reporterService.getReporterById(createUpdateCallDto.getReporterId()); // will throw exception if entity doesn't exist
+        CallAddress callAddress = callAddressService.getCallAddressById(createUpdateCallDto.getCallAddressId()); // will throw exception if entity doesn't exist
+        LocalDateTime callTime;
+        try {
+            callTime = LocalDateTime.parse(createUpdateCallDto.getCallTime());
+        } catch (DateTimeException e) {
+            throw new InvalidDateTimeException("enter valid datetime");
+        }
+        return callDao.save(new Call(
+                createUpdateCallDto.getId(),
+                createUpdateCallDto.getShortDescription(),
+                createUpdateCallDto.getDetailedDescription(),
+                callTime,
+                reporter,
+                callAddress
+        ));
+    }
 }

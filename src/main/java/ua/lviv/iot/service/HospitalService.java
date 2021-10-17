@@ -11,4 +11,6 @@ public interface HospitalService {
     List<Hospital> getAllHospitals();
 
     Hospital getHospitalById(Integer id);
+
+    Hospital updateHospital(Hospital hospital);
 }

@@ -35,4 +35,10 @@ public class ReporterServiceImpl implements ReporterService {
         return reporterDao.findById(phoneNumber)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + phoneNumber + " not found"));
     }
+
+    @Override
+    public Reporter updateReporter(Reporter reporter) {
+        getReporterById(reporter.getPhoneNumber());  // will throw exception if entity doesn't exist
+        return reporterDao.save(reporter);
+    }
 }

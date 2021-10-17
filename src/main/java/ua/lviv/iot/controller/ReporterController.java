@@ -36,4 +36,9 @@ public class ReporterController {
     ReporterDto getReporterById(final @PathVariable("id") String phoneNumber) {
         return mapReporterToReporterDto(reporterService.getReporterById(phoneNumber));
     }
+
+    @PutMapping
+    ReporterDto updateReporter(final @Valid @RequestBody Reporter reporter) {
+        return mapReporterToReporterDto(reporterService.updateReporter(reporter));
+    }
 }

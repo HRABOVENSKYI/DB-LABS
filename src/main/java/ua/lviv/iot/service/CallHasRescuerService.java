@@ -10,4 +10,6 @@ public interface CallHasRescuerService {
     CallHasRescuer createCallHasRescuer(CallHasRescuerDto callHasRescuerDto);
 
     List<CallHasRescuer> getAllCallHasRescuers();
+
+    CallHasRescuer updateCallHasRescuer(CallHasRescuerDto callHasRescuerDto);
 }

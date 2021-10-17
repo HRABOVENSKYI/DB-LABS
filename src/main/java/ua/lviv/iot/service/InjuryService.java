@@ -12,4 +12,6 @@ public interface InjuryService {
     List<Injury> getAllInjuries();
 
     Injury getInjuryById(Integer id);
+
+    Injury updateInjury(InjuryDto injuryDto);
 }

@@ -36,4 +36,9 @@ public class HospitalController {
     HospitalDto getHospitalById(final @PathVariable("id") Integer id) {
         return mapHospitalToHospitalDto(hospitalService.getHospitalById(id));
     }
+
+    @PutMapping
+    HospitalDto updateHospital(final @Valid @RequestBody Hospital hospital) {
+        return mapHospitalToHospitalDto(hospitalService.updateHospital(hospital));
+    }
 }

@@ -11,4 +11,6 @@ public interface RescuerService {
     List<Rescuer> getAllRescuers();
 
     Rescuer getRescuerById(Integer id);
+
+    Rescuer updateRescuer(Rescuer rescuer);
 }

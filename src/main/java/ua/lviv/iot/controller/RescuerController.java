@@ -36,4 +36,9 @@ public class RescuerController {
     RescuerDto getRescuerById(final @PathVariable("id") Integer id) {
         return mapRescuerToRescuerDto(rescuerService.getRescuerById(id));
     }
+
+    @PutMapping
+    RescuerDto updateRescuer(final @Valid @RequestBody Rescuer rescuer) {
+        return mapRescuerToRescuerDto(rescuerService.updateRescuer(rescuer));
+    }
 }
