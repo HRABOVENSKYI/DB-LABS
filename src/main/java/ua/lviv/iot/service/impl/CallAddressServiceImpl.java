@@ -29,6 +29,7 @@ public class CallAddressServiceImpl implements CallAddressService {
 
     @Override
     public CallAddress getCallAddressById(Integer id) {
+        System.out.println("ID: " + id);
         return callAddressDao.findById(id)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));
     }

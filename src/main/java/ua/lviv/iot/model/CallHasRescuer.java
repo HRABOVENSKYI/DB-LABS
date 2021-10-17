@@ -26,4 +26,11 @@ public class CallHasRescuer {
     @OneToOne
     @JoinColumn(name = "injury_id")
     private Injury injury;
+
+    public CallHasRescuer(CallRescuerId id, Call call, Rescuer rescuer, Injury injury) {
+        this.id = id;
+        this.call = call;
+        this.rescuer = rescuer;
+        this.injury = injury;
+    }
 }

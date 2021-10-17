@@ -7,6 +7,7 @@ import ua.lviv.iot.mappers.RescuerMapper;
 import ua.lviv.iot.model.Rescuer;
 import ua.lviv.iot.service.RescuerService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,11 @@ import static ua.lviv.iot.mappers.RescuerMapper.mapRescuerToRescuerDto;
 public class RescuerController {
 
     private final RescuerService rescuerService;
+
+    @PostMapping
+    RescuerDto createRescuer(final @Valid @RequestBody Rescuer rescuer) {
+        return mapRescuerToRescuerDto(rescuerService.createRescuer(rescuer));
+    }
 
     @GetMapping
     List<RescuerDto> getAllRescuers() {

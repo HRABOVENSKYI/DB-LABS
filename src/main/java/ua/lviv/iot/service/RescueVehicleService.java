@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface RescueVehicleService {
 
-    RescueVehicle createRescueVehicle(RescueVehicle callAddress);
+    RescueVehicle createRescueVehicle(RescueVehicle rescueVehicle);
 
     List<RescueVehicle> getAllRescueVehicles();
 
     RescueVehicle getRescueVehicleById(String number);
 
-    RescueVehicle updateRescueVehicle(RescueVehicle callAddress);
+    RescueVehicle updateRescueVehicle(RescueVehicle rescueVehicle);
 
     RescueVehicle deleteRescueVehicleById(String number);
 }

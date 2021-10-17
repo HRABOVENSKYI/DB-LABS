@@ -16,6 +16,11 @@ public class RescuerServiceImpl implements RescuerService {
     private final RescuerDao rescuerDao;
 
     @Override
+    public Rescuer createRescuer(Rescuer rescuer) {
+        return rescuerDao.save(rescuer);
+    }
+
+    @Override
     public List<Rescuer> getAllRescuers() {
         return rescuerDao.findAll();
     }

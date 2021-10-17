@@ -22,9 +22,9 @@ public class CallHasRescueVehicleController {
 
     @PostMapping
     CallHasRescueVehicleDto createCallHasRescueVehicle(
-            final @Valid @RequestBody CallHasRescueVehicleDto rescueVehicleDto) {
+            final @Valid @RequestBody CallHasRescueVehicleDto callHasRescueVehicleDto) {
         return mapCallHasRescueVehicleToCallHasRescueVehicleDto(
-                callHasRescueVehicleService.createCallHasRescueVehicle(rescueVehicleDto));
+                callHasRescueVehicleService.createCallHasRescueVehicle(callHasRescueVehicleDto));
     }
 
     @GetMapping

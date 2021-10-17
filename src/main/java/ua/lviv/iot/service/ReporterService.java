@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ReporterService {
 
+    Reporter createReporter(Reporter reporter);
+
     List<Reporter> getAllReporters();
 
     Reporter getReporterById(String phoneNumber);

@@ -1,14 +1,13 @@
 package ua.lviv.iot.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.reporter.ReporterDto;
 import ua.lviv.iot.mappers.ReporterMapper;
+import ua.lviv.iot.model.Reporter;
 import ua.lviv.iot.service.ReporterService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +19,11 @@ import static ua.lviv.iot.mappers.ReporterMapper.mapReporterToReporterDto;
 public class ReporterController {
 
     private final ReporterService reporterService;
+
+    @PostMapping
+    ReporterDto createReporter(final @Valid @RequestBody Reporter reporter) {
+        return mapReporterToReporterDto(reporterService.createReporter(reporter));
+    }
 
     @GetMapping
     List<ReporterDto> getAllReporters() {

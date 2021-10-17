@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dao.CallHasRescueVehicleDao;
 import ua.lviv.iot.dao.RescueVehicleDao;
+import ua.lviv.iot.exception.EntityAlreadyExistsException;
 import ua.lviv.iot.exception.ForeignKeyConstraintException;
 import ua.lviv.iot.exception.NoDataFoundException;
 import ua.lviv.iot.model.RescueVehicle;
@@ -20,6 +21,10 @@ public class RescueVehicleServiceImpl implements RescueVehicleService {
 
     @Override
     public RescueVehicle createRescueVehicle(RescueVehicle rescueVehicle) {
+        String id = rescueVehicle.getNumber();
+        if (rescueVehicleDao.existsById(id)) {
+            throw new EntityAlreadyExistsException("Entity with id: " + id + " already exists");
+        }
         return rescueVehicleDao.save(rescueVehicle);
     }
 

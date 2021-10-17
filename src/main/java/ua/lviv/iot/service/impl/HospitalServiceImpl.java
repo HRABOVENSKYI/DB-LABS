@@ -16,6 +16,11 @@ public class HospitalServiceImpl implements HospitalService {
     private final HospitalDao hospitalDao;
 
     @Override
+    public Hospital createHospital(Hospital hospital) {
+        return hospitalDao.save(hospital);
+    }
+
+    @Override
     public List<Hospital> getAllHospitals() {
         return hospitalDao.findAll();
     }

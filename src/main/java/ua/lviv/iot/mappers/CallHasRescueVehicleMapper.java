@@ -13,8 +13,8 @@ public class CallHasRescueVehicleMapper {
         return new CallHasRescueVehicleDto(
                 callHasRescueVehicle.getId().getCallId(),
                 callHasRescueVehicle.getId().getRescueVehicleNumber(),
-                callHasRescueVehicle.getDepartureTime(),
-                callHasRescueVehicle.getReturnTime()
+                callHasRescueVehicle.getDepartureTime().toString(),
+                callHasRescueVehicle.getReturnTime().toString()
         );
     }
 }

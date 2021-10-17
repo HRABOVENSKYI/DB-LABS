@@ -22,7 +22,7 @@ public class CallDto {
 
     private String reporterId;
 
-    private Integer callAddress;
+    private Integer callAddressId;
 
     private Set<Integer> rescuers;
 

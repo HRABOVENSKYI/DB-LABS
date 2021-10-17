@@ -25,4 +25,10 @@ public class Injury {
     @ManyToOne
     @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospital;
+
+    public Injury(String description, String diagnosis, Hospital hospital) {
+        this.description = description;
+        this.diagnosis = diagnosis;
+        this.hospital = hospital;
+    }
 }

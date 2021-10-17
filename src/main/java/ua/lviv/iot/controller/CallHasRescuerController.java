@@ -6,8 +6,11 @@ import ua.lviv.iot.dto.callhasrescuer.CallHasRescuerDto;
 import ua.lviv.iot.mappers.CallHasRescuerMapper;
 import ua.lviv.iot.service.CallHasRescuerService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ua.lviv.iot.mappers.CallHasRescuerMapper.mapCallHasRescuerToCallHasRescuerDto;
 
 @RestController
 @AllArgsConstructor
@@ -15,6 +18,11 @@ import java.util.stream.Collectors;
 public class CallHasRescuerController {
 
     private final CallHasRescuerService callHasRescuerService;
+
+    @PostMapping
+    CallHasRescuerDto createCallHasRescuer(final @Valid @RequestBody CallHasRescuerDto callHasRescuerDto) {
+        return mapCallHasRescuerToCallHasRescuerDto(callHasRescuerService.createCallHasRescuer(callHasRescuerDto));
+    }
 
     @GetMapping
     List<CallHasRescuerDto> getAllCallHasRescuers() {

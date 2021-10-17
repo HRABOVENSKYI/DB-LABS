@@ -24,8 +24,6 @@ public class CallAddress {
     @Column(name = "region", nullable = false)
     private String region;
 
-    // visit https://www.baeldung.com/javax-validation to learn more about validation
-
     @Size(min = 3, max = 100, message = "must be from 3 to 100 chars")
     @NotBlank(message = "is required and must not be blank")
     @Column(name = "city_or_village", nullable = false)

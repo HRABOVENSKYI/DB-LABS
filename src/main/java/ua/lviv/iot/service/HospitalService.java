@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface HospitalService {
 
+    Hospital createHospital(Hospital hospital);
+
     List<Hospital> getAllHospitals();
 
     Hospital getHospitalById(Integer id);

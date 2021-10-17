@@ -3,6 +3,9 @@ package ua.lviv.iot.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -18,9 +21,12 @@ public class Call {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Size(max = 255, message = "must be up to 255 chars")
+    @NotBlank(message = "is required and must not be blank")
     @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
+    @Size(max = 3000, message = "must be up to 3000 chars")
     @Column(name = "detailed_description")
     private String detailedDescription;
 
@@ -40,4 +46,13 @@ public class Call {
 
     @OneToMany(mappedBy = "call")
     private Set<CallHasRescueVehicle> rescueVehicles;
+
+    public Call(String shortDescription, String detailedDescription, LocalDateTime callTime, Reporter reporter,
+                CallAddress callAddress) {
+        this.shortDescription = shortDescription;
+        this.detailedDescription = detailedDescription;
+        this.callTime = callTime;
+        this.reporter = reporter;
+        this.callAddress = callAddress;
+    }
 }

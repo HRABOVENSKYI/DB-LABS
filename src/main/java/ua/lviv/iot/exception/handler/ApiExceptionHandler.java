@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.lviv.iot.exception.EntityAlreadyExistsException;
 import ua.lviv.iot.exception.ForeignKeyConstraintException;
+import ua.lviv.iot.exception.InvalidDateTimeException;
 import ua.lviv.iot.exception.NoDataFoundException;
 
 import java.time.ZonedDateTime;
@@ -16,7 +17,7 @@ import java.time.ZonedDateTime;
 public class ApiExceptionHandler {
 
     @ExceptionHandler(value = {NoDataFoundException.class})
-    public ResponseEntity<Object> handleNoDataFoundException(NoDataFoundException e) {
+    public ResponseEntity<Object> handleNotFoundExceptions(RuntimeException e) {
         // Create payload containing exception details
         HttpStatus notFound = HttpStatus.NOT_FOUND;
 
@@ -31,7 +32,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException e) {
         // Create payload containing exception details
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
@@ -56,7 +57,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(value = {ForeignKeyConstraintException.class})
-    public ResponseEntity<Object> handleForeignKeyConstraintException(ForeignKeyConstraintException e) {
+    public ResponseEntity<Object> handleForbiddenExceptions(RuntimeException e) {
         // Create payload containing exception details
         HttpStatus forbidden = HttpStatus.FORBIDDEN;
 
@@ -70,8 +71,8 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, forbidden);
     }
 
-    @ExceptionHandler(value = {EntityAlreadyExistsException.class})
-    public ResponseEntity<Object> handleEntityAlreadyExistsException(EntityAlreadyExistsException e) {
+    @ExceptionHandler(value = {EntityAlreadyExistsException.class, InvalidDateTimeException.class})
+    public ResponseEntity<Object> handleBadRequestExceptions(RuntimeException e) {
         // Create payload containing exception details
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 

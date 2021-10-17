@@ -1,14 +1,12 @@
 package ua.lviv.iot.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.injury.InjuryDto;
 import ua.lviv.iot.mappers.InjuryMapper;
 import ua.lviv.iot.service.InjuryService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +18,11 @@ import static ua.lviv.iot.mappers.InjuryMapper.mapInjuryToInjuryDto;
 public class InjuryController {
 
     private final InjuryService injuryService;
+
+    @PostMapping
+    InjuryDto createInjury(final @Valid @RequestBody InjuryDto injuryDto) {
+        return mapInjuryToInjuryDto(injuryService.createInjury(injuryDto));
+    }
 
     @GetMapping
     List<InjuryDto> getAllInjuries() {

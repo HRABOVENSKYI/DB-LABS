@@ -7,10 +7,11 @@ import ua.lviv.iot.mappers.HospitalMapper;
 import ua.lviv.iot.model.Hospital;
 import ua.lviv.iot.service.HospitalService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.lviv.iot.mappers.HospitalMapper.*;
+import static ua.lviv.iot.mappers.HospitalMapper.mapHospitalToHospitalDto;
 
 @RestController
 @AllArgsConstructor
@@ -18,6 +19,11 @@ import static ua.lviv.iot.mappers.HospitalMapper.*;
 public class HospitalController {
 
     private final HospitalService hospitalService;
+
+    @PostMapping
+    HospitalDto createHospital(final @Valid @RequestBody Hospital hospital) {
+        return mapHospitalToHospitalDto(hospitalService.createHospital(hospital));
+    }
 
     @GetMapping
     List<HospitalDto> getAllHospitals() {

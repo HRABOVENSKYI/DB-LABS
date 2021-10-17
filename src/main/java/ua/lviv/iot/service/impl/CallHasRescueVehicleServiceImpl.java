@@ -14,6 +14,7 @@ import ua.lviv.iot.service.CallHasRescueVehicleService;
 import ua.lviv.iot.service.CallService;
 import ua.lviv.iot.service.RescueVehicleService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -38,8 +39,8 @@ public class CallHasRescueVehicleServiceImpl implements CallHasRescueVehicleServ
                 id,
                 call,
                 rescueVehicle,
-                callHasRescueVehicleDto.getDepartureTime(),
-                callHasRescueVehicleDto.getReturnTime()
+                LocalDateTime.parse(callHasRescueVehicleDto.getDepartureTime()),
+                LocalDateTime.parse(callHasRescueVehicleDto.getReturnTime())
         ));
     }
 
@@ -61,8 +62,8 @@ public class CallHasRescueVehicleServiceImpl implements CallHasRescueVehicleServ
                 id,
                 call,
                 rescueVehicle,
-                callHasRescueVehicleDto.getDepartureTime(),
-                callHasRescueVehicleDto.getReturnTime()
+                LocalDateTime.parse(callHasRescueVehicleDto.getDepartureTime()),
+                LocalDateTime.parse(callHasRescueVehicleDto.getReturnTime())
         ));
     }
 

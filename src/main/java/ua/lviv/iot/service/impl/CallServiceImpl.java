@@ -3,10 +3,18 @@ package ua.lviv.iot.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dao.CallDao;
+import ua.lviv.iot.dto.call.CreateUpdateCallDto;
+import ua.lviv.iot.exception.InvalidDateTimeException;
 import ua.lviv.iot.exception.NoDataFoundException;
 import ua.lviv.iot.model.Call;
+import ua.lviv.iot.model.CallAddress;
+import ua.lviv.iot.model.Reporter;
+import ua.lviv.iot.service.CallAddressService;
 import ua.lviv.iot.service.CallService;
+import ua.lviv.iot.service.ReporterService;
 
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,6 +22,27 @@ import java.util.List;
 public class CallServiceImpl implements CallService {
 
     private final CallDao callDao;
+    private final ReporterService reporterService;
+    private final CallAddressService callAddressService;
+
+    @Override
+    public Call createCall(CreateUpdateCallDto createUpdateCallDto) {
+        Reporter reporter = reporterService.getReporterById(createUpdateCallDto.getReporterId()); // will throw exception if entity doesn't exist
+        CallAddress callAddress = callAddressService.getCallAddressById(createUpdateCallDto.getCallAddressId()); // will throw exception if entity doesn't exist
+        LocalDateTime callTime;
+        try {
+            callTime = LocalDateTime.parse(createUpdateCallDto.getCallTime());
+        } catch (DateTimeException e) {
+            throw new InvalidDateTimeException("enter valid datetime");
+        }
+        return callDao.save(new Call(
+                createUpdateCallDto.getShortDescription(),
+                createUpdateCallDto.getDetailedDescription(),
+                callTime,
+                reporter,
+                callAddress
+        ));
+    }
 
     @Override
     public List<Call> getAllCalls() {

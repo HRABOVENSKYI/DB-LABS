@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RescuerService {
 
+    Rescuer createRescuer(Rescuer rescuer);
+
     List<Rescuer> getAllRescuers();
 
     Rescuer getRescuerById(Integer id);

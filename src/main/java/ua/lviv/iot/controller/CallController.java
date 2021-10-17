@@ -1,18 +1,17 @@
 package ua.lviv.iot.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.call.CallDto;
+import ua.lviv.iot.dto.call.CreateUpdateCallDto;
 import ua.lviv.iot.mappers.CallMapper;
 import ua.lviv.iot.service.CallService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.lviv.iot.mappers.CallMapper.*;
+import static ua.lviv.iot.mappers.CallMapper.mapCallToCallDto;
 
 @RestController
 @AllArgsConstructor
@@ -20,6 +19,11 @@ import static ua.lviv.iot.mappers.CallMapper.*;
 public class CallController {
 
     private final CallService callService;
+
+    @PostMapping
+    CallDto createCall(final @Valid @RequestBody CreateUpdateCallDto createUpdateCallDto) {
+        return mapCallToCallDto(callService.createCall(createUpdateCallDto));
+    }
 
     @GetMapping
     List<CallDto> getAllCalls() {
