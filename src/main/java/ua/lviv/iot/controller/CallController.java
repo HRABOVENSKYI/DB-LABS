@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.call.CallDto;
 import ua.lviv.iot.dto.call.CreateUpdateCallDto;
+import ua.lviv.iot.dto.reporter.ReporterDto;
 import ua.lviv.iot.mappers.CallMapper;
 import ua.lviv.iot.model.Call;
 import ua.lviv.iot.service.CallService;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.lviv.iot.mappers.CallMapper.mapCallToCallDto;
+import static ua.lviv.iot.mappers.ReporterMapper.mapReporterToReporterDto;
 
 @RestController
 @AllArgsConstructor
@@ -41,5 +43,10 @@ public class CallController {
     @PutMapping
     CallDto updateCall(final @Valid @RequestBody CreateUpdateCallDto createUpdateCallDto) {
         return mapCallToCallDto(callService.updateCall(createUpdateCallDto));
+    }
+
+    @DeleteMapping("/{id}")
+    CallDto deleteCallById(final @PathVariable("id") Integer id) {
+        return mapCallToCallDto(callService.deleteCallById(id));
     }
 }

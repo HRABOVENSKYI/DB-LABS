@@ -44,7 +44,7 @@ public class CallHasRescueVehicleController {
 
     @DeleteMapping
     CallHasRescueVehicleDto deleteCallHasRescueVehicle(final @RequestParam("callId") Integer callId,
-                                                       final @RequestParam("resqueVehicleNumber") String number) {
+                                                       final @RequestParam("rescueVehicleNumber") String number) {
         return mapCallHasRescueVehicleToCallHasRescueVehicleDto(
                 callHasRescueVehicleService.deleteCallHasRescueVehicle(new CallRescueVehicleId(callId, number)));
     }

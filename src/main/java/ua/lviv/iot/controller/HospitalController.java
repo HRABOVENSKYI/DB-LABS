@@ -41,4 +41,9 @@ public class HospitalController {
     HospitalDto updateHospital(final @Valid @RequestBody Hospital hospital) {
         return mapHospitalToHospitalDto(hospitalService.updateHospital(hospital));
     }
+
+    @DeleteMapping("/{id}")
+    HospitalDto deleteHospitalById(final @PathVariable("id") Integer id) {
+        return mapHospitalToHospitalDto(hospitalService.deleteHospitalById(id));
+    }
 }

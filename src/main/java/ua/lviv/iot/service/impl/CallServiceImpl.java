@@ -75,4 +75,14 @@ public class CallServiceImpl implements CallService {
                 callAddress
         ));
     }
+
+    /**
+     * Deletes with CascadeType=REMOVE
+     */
+    @Override
+    public Call deleteCallById(Integer id) {
+        Call call = getCallById(id); // throws runtime exception if not found by id
+        callDao.deleteById(id);
+        return call;
+    }
 }

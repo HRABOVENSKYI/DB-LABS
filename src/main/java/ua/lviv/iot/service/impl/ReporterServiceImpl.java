@@ -41,4 +41,14 @@ public class ReporterServiceImpl implements ReporterService {
         getReporterById(reporter.getPhoneNumber());  // will throw exception if entity doesn't exist
         return reporterDao.save(reporter);
     }
+
+    /**
+     * Deletes with CascadeType=REMOVE
+     */
+    @Override
+    public Reporter deleteReporterById(String id) {
+        Reporter reporter = getReporterById(id); // throws runtime exception if not found by id
+        reporterDao.deleteById(id);
+        return reporter;
+    }
 }

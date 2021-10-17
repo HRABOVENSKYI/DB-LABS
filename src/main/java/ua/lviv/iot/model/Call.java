@@ -41,10 +41,10 @@ public class Call {
     @JoinColumn(name = "call_address_id", nullable = false)
     private CallAddress callAddress;
 
-    @OneToMany(mappedBy = "call")
+    @OneToMany(mappedBy = "call", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<CallHasRescuer> rescuers;
 
-    @OneToMany(mappedBy = "call")
+    @OneToMany(mappedBy = "call", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<CallHasRescueVehicle> rescueVehicles;
 
     public Call(Integer id, String shortDescription, String detailedDescription, LocalDateTime callTime,

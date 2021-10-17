@@ -45,6 +45,9 @@ public class RescueVehicleServiceImpl implements RescueVehicleService {
         return rescueVehicleDao.save(rescueVehicle);
     }
 
+    /**
+     * Deletes only if there is no foreign key associations
+     */
     @Override
     public RescueVehicle deleteRescueVehicleById(String number) {
         RescueVehicle oldRescueVehicle = getRescueVehicleById(number); // throws runtime exception if not found by id

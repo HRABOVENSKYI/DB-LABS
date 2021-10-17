@@ -29,7 +29,6 @@ public class CallAddressServiceImpl implements CallAddressService {
 
     @Override
     public CallAddress getCallAddressById(Integer id) {
-        System.out.println("ID: " + id);
         return callAddressDao.findById(id)
                 .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found"));
     }
@@ -40,6 +39,9 @@ public class CallAddressServiceImpl implements CallAddressService {
         return callAddressDao.save(callAddress);
     }
 
+    /**
+     * Deletes only if there is no foreign key associations
+     */
     @Override
     public CallAddress deleteCallAddressById(Integer id) {
         CallAddress oldCallAddress = getCallAddressById(id); // throws runtime exception if not found by id

@@ -2,6 +2,7 @@ package ua.lviv.iot.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ua.lviv.iot.dto.reporter.ReporterDto;
 import ua.lviv.iot.dto.rescuer.RescuerDto;
 import ua.lviv.iot.mappers.RescuerMapper;
 import ua.lviv.iot.model.Rescuer;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ua.lviv.iot.mappers.ReporterMapper.mapReporterToReporterDto;
 import static ua.lviv.iot.mappers.RescuerMapper.mapRescuerToRescuerDto;
 
 @RestController
@@ -40,5 +42,10 @@ public class RescuerController {
     @PutMapping
     RescuerDto updateRescuer(final @Valid @RequestBody Rescuer rescuer) {
         return mapRescuerToRescuerDto(rescuerService.updateRescuer(rescuer));
+    }
+
+    @DeleteMapping("/{id}")
+    RescuerDto deleteRescuerById(final @PathVariable("id") Integer id) {
+        return mapRescuerToRescuerDto(rescuerService.deleteRescuerById(id));
     }
 }

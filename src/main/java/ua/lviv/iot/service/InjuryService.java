@@ -14,4 +14,6 @@ public interface InjuryService {
     Injury getInjuryById(Integer id);
 
     Injury updateInjury(InjuryDto injuryDto);
+
+    Injury deleteInjuryById(Integer id);
 }

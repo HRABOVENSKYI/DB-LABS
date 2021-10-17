@@ -36,4 +36,14 @@ public class RescuerServiceImpl implements RescuerService {
         getRescuerById(rescuer.getId()); // will throw exception if entity doesn't exist
         return rescuerDao.save(rescuer);
     }
+
+    /**
+     * Deletes with CascadeType=REMOVE
+     */
+    @Override
+    public Rescuer deleteRescuerById(Integer id) {
+        Rescuer rescuer = getRescuerById(id); // throws runtime exception if not found by id
+        rescuerDao.deleteById(id);
+        return rescuer;
+    }
 }

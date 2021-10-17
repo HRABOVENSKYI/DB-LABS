@@ -31,6 +31,6 @@ public class Reporter {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "reporter")
+    @OneToMany(mappedBy = "reporter", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Call> calls;
 }

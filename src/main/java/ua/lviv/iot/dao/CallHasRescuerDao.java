@@ -9,4 +9,6 @@ import ua.lviv.iot.model.compositekey.CallRescuerId;
 public interface CallHasRescuerDao extends JpaRepository<CallHasRescuer, CallRescuerId> {
 
     boolean existsCallHasRescuerByInjury_Id(Integer injuryId);
+
+    void deleteCallHasRescuerByInjury_Id(Integer id);
 }

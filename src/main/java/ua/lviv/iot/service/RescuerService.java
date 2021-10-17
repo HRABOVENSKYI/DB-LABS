@@ -13,4 +13,6 @@ public interface RescuerService {
     Rescuer getRescuerById(Integer id);
 
     Rescuer updateRescuer(Rescuer rescuer);
+
+    Rescuer deleteRescuerById(Integer id);
 }

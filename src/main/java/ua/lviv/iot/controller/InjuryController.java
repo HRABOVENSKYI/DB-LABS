@@ -40,4 +40,9 @@ public class InjuryController {
     InjuryDto updateInjury(final @Valid @RequestBody InjuryDto injuryDto) {
         return mapInjuryToInjuryDto(injuryService.updateInjury(injuryDto));
     }
+
+    @DeleteMapping("/{id}")
+    InjuryDto deleteInjuryById(final @PathVariable("id") Integer id) {
+        return mapInjuryToInjuryDto(injuryService.deleteInjuryById(id));
+    }
 }

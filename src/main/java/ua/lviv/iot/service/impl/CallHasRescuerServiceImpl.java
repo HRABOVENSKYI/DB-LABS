@@ -35,7 +35,7 @@ public class CallHasRescuerServiceImpl implements CallHasRescuerService {
         if (callHasRescuerDao.existsById(id)) {
             throw new EntityAlreadyExistsException("Entity with id: " + id + " already exists");
         }
-        if (callHasRescuerDao.existsCallHasRescuerByInjury_Id(injuryId)) {
+        if (injuryId != null && callHasRescuerDao.existsCallHasRescuerByInjury_Id(injuryId)) {
             throw new EntityAlreadyExistsException("Injury with id: " + injuryId + " already exists. Create new one");
         }
         Call call = callService.getCallById(callId); // will throw exception if entity doesn't exist
@@ -64,7 +64,7 @@ public class CallHasRescuerServiceImpl implements CallHasRescuerService {
         if (!callHasRescuerDao.existsById(id)) {
             throw new NoDataFoundException("Entity with id: " + id + " not found");
         }
-        if (callHasRescuerDao.existsCallHasRescuerByInjury_Id(injuryId)) {
+        if (injuryId != null && callHasRescuerDao.existsCallHasRescuerByInjury_Id(injuryId)) {
             throw new EntityAlreadyExistsException("Injury with id: " + injuryId + " already exists. Create new one");
         }
         Call call = callService.getCallById(callId); // will throw exception if entity doesn't exist
@@ -77,5 +77,16 @@ public class CallHasRescuerServiceImpl implements CallHasRescuerService {
                         injuryService.getInjuryById(injuryId)
                         : null
         ));
+    }
+
+    /**
+     * Just deletes, no foreign key associations
+     */
+    @Override
+    public CallHasRescuer deleteCallHasRescuer(CallRescuerId id) {
+        CallHasRescuer callHasRescuer = callHasRescuerDao.findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Entity with id: " + id + " not found")); // throws exception if entity doesn't exist
+        callHasRescuerDao.deleteById(id);
+        return callHasRescuer;
     }
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dto.callhasrescuer.CallHasRescuerDto;
 import ua.lviv.iot.mappers.CallHasRescuerMapper;
+import ua.lviv.iot.model.compositekey.CallRescuerId;
 import ua.lviv.iot.service.CallHasRescuerService;
 
 import javax.validation.Valid;
@@ -34,5 +35,12 @@ public class CallHasRescuerController {
     @PutMapping
     CallHasRescuerDto updateCallHasRescuer(final @Valid @RequestBody CallHasRescuerDto callHasRescuerDto) {
         return mapCallHasRescuerToCallHasRescuerDto(callHasRescuerService.updateCallHasRescuer(callHasRescuerDto));
+    }
+
+    @DeleteMapping
+    CallHasRescuerDto deleteCallHasRescuer(final @RequestParam("callId") Integer callId,
+                                           final @RequestParam("rescuerId") Integer rescuerId) {
+        return mapCallHasRescuerToCallHasRescuerDto(
+                callHasRescuerService.deleteCallHasRescuer(new CallRescuerId(callId, rescuerId)));
     }
 }

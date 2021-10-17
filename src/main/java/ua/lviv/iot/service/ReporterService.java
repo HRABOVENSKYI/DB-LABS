@@ -13,4 +13,6 @@ public interface ReporterService {
     Reporter getReporterById(String phoneNumber);
 
     Reporter updateReporter(Reporter reporter);
+
+    Reporter deleteReporterById(String id);
 }

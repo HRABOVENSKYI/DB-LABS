@@ -37,6 +37,6 @@ public class Rescuer {
     @Column(name = "is_present", nullable = false)
     private boolean isPresent;
 
-    @OneToMany(mappedBy = "rescuer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "rescuer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<CallHasRescuer> calls;
 }

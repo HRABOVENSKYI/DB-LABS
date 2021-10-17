@@ -41,4 +41,9 @@ public class ReporterController {
     ReporterDto updateReporter(final @Valid @RequestBody Reporter reporter) {
         return mapReporterToReporterDto(reporterService.updateReporter(reporter));
     }
+
+    @DeleteMapping("/{reporterPhoneNumber}")
+    ReporterDto deleteReporterById(final @PathVariable("reporterPhoneNumber") String id) {
+        return mapReporterToReporterDto(reporterService.deleteReporterById(id));
+    }
 }
