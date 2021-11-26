@@ -164,9 +164,21 @@ VALUES ('test');
 
 
 -- DISCIPLINE
-INSERT INTO `lab7`.`discipline` (`name`, `semester_number`, `code`, `assessment_id`) VALUES ('Medicine', '1', '3453', '1');
-INSERT INTO `lab7`.`discipline` (`name`, `semester_number`, `code`, `assessment_id`) VALUES ('IT', '1', '9877', '2');
-INSERT INTO `lab7`.`discipline` (`name`, `semester_number`, `code`, `assessment_id`) VALUES ('Juridical', '1', '2343', '1');
+INSERT INTO `lab7`.`discipline` (`name`, `semester_number`, `code`, `assessment_id`)
+VALUES ('Medicine', '1', '3453', '1');
+INSERT INTO `lab7`.`discipline` (`name`, `semester_number`, `code`, `assessment_id`)
+VALUES ('IT', '1', '9877', '2');
+INSERT INTO `lab7`.`discipline` (`name`, `semester_number`, `code`, `assessment_id`)
+VALUES ('Juridical', '1', '2343', '1');
+
+
+-- COWORKER_DISCIPLINE
+INSERT INTO `lab7`.`coworker_discipline` (`coworker_id`, `discipline_id`)
+VALUES ('1', '1');
+INSERT INTO `lab7`.`coworker_discipline` (`coworker_id`, `discipline_id`)
+VALUES ('2', '2');
+INSERT INTO `lab7`.`coworker_discipline` (`coworker_id`, `discipline_id`)
+VALUES ('3', '3');
 
 
 SET SQL_MODE = @OLD_SQL_MODE;
