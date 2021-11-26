@@ -110,6 +110,19 @@ CREATE TABLE IF NOT EXISTS `lab7`.`assessment`
     ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `lab7`.`position_logs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lab7`.`position_logs`
+(
+    `id`           INT         NOT NULL AUTO_INCREMENT,
+    `time_deleted` TIMESTAMP   NOT NULL,
+    `name`         VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB;
+
+
 -- FILL TABLES
 -- POSITION
 INSERT INTO `lab7`.`position` (`name`)
@@ -141,13 +154,13 @@ VALUES ('None');
 -- COWORKER
 INSERT INTO `lab7`.`coworker` (`surname`, `name`, `seniority`, `dob`, `passport_number`, `position_id`,
                                `academic_status_id`, `degree_id`)
-VALUES ('Johnson', 'Mike', '4', '2003-12-23', 'skjfebfjkbwv244n', '1', '1', '1');
+VALUES ('Johnson', 'Mike', '4', '2003-12-23', 'DF-345648', '1', '1', '1');
 INSERT INTO `lab7`.`coworker` (`surname`, `name`, `seniority`, `dob`, `passport_number`, `position_id`,
                                `academic_status_id`, `degree_id`)
-VALUES ('Cale', 'Mark', '5', '1997-05-30', 'erfgbnj34bdbgjkb43', '2', '1', '3');
+VALUES ('Cale', 'Mark', '5', '1997-05-30', 'DG-345678', '2', '1', '3');
 INSERT INTO `lab7`.`coworker` (`surname`, `name`, `seniority`, `dob`, `passport_number`, `position_id`,
                                `academic_status_id`, `degree_id`)
-VALUES ('Yakk', 'Tak', '0', '1923-11-11', 'dfskgntjretbjkfegb34jngfd', '3', '2', '2');
+VALUES ('Yakk', 'Tak', '0', '1923-11-11', 'DA-345678', '3', '2', '2');
 
 
 -- ASSESSMENT
