@@ -12,13 +12,13 @@ SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
 -- -----------------------------------------------------
 -- Schema lab7
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `lab7`;
 CREATE SCHEMA IF NOT EXISTS `lab7` DEFAULT CHARACTER SET utf8;
 USE `lab7`;
 
 -- -----------------------------------------------------
 -- Table `lab7`.`coworker`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`coworker`;
 CREATE TABLE IF NOT EXISTS `lab7`.`coworker`
 (
     `id`                 INT          NOT NULL AUTO_INCREMENT,
@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS `lab7`.`coworker`
 -- -----------------------------------------------------
 -- Table `lab7`.`discipline`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`discipline`;
 CREATE TABLE IF NOT EXISTS `lab7`.`discipline`
 (
     `id`              INT          NOT NULL AUTO_INCREMENT,
@@ -54,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `lab7`.`discipline`
 -- -----------------------------------------------------
 -- Table `lab7`.`position`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`position`;
 CREATE TABLE IF NOT EXISTS `lab7`.`position`
 (
     `id`   INT         NOT NULL AUTO_INCREMENT,
@@ -67,7 +65,6 @@ CREATE TABLE IF NOT EXISTS `lab7`.`position`
 -- -----------------------------------------------------
 -- Table `lab7`.`academic_status`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`academic_status`;
 CREATE TABLE IF NOT EXISTS `lab7`.`academic_status`
 (
     `id`   INT         NOT NULL AUTO_INCREMENT,
@@ -80,7 +77,6 @@ CREATE TABLE IF NOT EXISTS `lab7`.`academic_status`
 -- -----------------------------------------------------
 -- Table `lab7`.`degree`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`degree`;
 CREATE TABLE IF NOT EXISTS `lab7`.`degree`
 (
     `id`   INT         NOT NULL AUTO_INCREMENT,
@@ -93,7 +89,6 @@ CREATE TABLE IF NOT EXISTS `lab7`.`degree`
 -- -----------------------------------------------------
 -- Table `lab7`.`coworker_discipline`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`coworker_discipline`;
 CREATE TABLE IF NOT EXISTS `lab7`.`coworker_discipline`
 (
     `coworker_id`   INT NOT NULL,
@@ -106,7 +101,6 @@ CREATE TABLE IF NOT EXISTS `lab7`.`coworker_discipline`
 -- -----------------------------------------------------
 -- Table `lab7`.`assessment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lab7`.`assessment`;
 CREATE TABLE IF NOT EXISTS `lab7`.`assessment`
 (
     `id`   INT         NOT NULL AUTO_INCREMENT,
