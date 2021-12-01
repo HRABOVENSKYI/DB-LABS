@@ -33,3 +33,5 @@ BEGIN
     );
 END //
 DELIMITER ;
+
+select getMaxDob();

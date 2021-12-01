@@ -222,7 +222,7 @@ BEGIN
     end if;
     if (new.passport_number not rlike '[A-Z]-[0-9]{6}') then
         signal sqlstate '45000'
-            set message_text = 'Passport nuber doesn\'t match regex';
+            set message_text = 'Passport number doesn\'t match regex';
     end if;
     if (new.name not in ('Василь', 'Анна', 'Ірина', 'Андрій', 'Юрій')) then
         signal sqlstate '45000'
