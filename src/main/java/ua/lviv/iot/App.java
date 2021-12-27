@@ -1,12 +1,13 @@
 package ua.lviv.iot;
 
-import ua.lviv.iot.hibernate.HibernateUtil;
-import ua.lviv.iot.view.View;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class App {
 
     public static void main(String[] args) {
-        HibernateUtil.getSessionFactory(); // stub to print Hibernate logs before actual view
-        new View().show();
+        SpringApplication.run(App.class, args);
     }
+
 }

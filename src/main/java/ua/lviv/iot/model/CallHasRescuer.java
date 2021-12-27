@@ -1,7 +1,7 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.model.composite_key.CallRescuerId;
+import ua.lviv.iot.model.compositekey.CallRescuerId;
 
 import javax.persistence.*;
 
@@ -10,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 public class CallHasRescuer {
 
     @EmbeddedId
@@ -28,10 +27,10 @@ public class CallHasRescuer {
     @JoinColumn(name = "injury_id")
     private Injury injury;
 
-    @Override
-    public String toString() {
-        return "Rescuer{" +
-                "id=" + rescuer.getId() +
-                '}';
+    public CallHasRescuer(CallRescuerId id, Call call, Rescuer rescuer, Injury injury) {
+        this.id = id;
+        this.call = call;
+        this.rescuer = rescuer;
+        this.injury = injury;
     }
 }

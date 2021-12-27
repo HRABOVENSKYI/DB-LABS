@@ -1,17 +1,20 @@
 package ua.lviv.iot.model;
 
 import lombok.*;
-import ua.lviv.iot.model.composite_key.CallRescueVehicleId;
+import ua.lviv.iot.dao.CallHasRescueVehicleDao;
+import ua.lviv.iot.dto.callhasrescuevehicle.CallHasRescueVehicleDto;
+import ua.lviv.iot.model.compositekey.CallRescueVehicleId;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "call_has_rescue_vehicle")
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 public class CallHasRescueVehicle {
 
     @EmbeddedId
@@ -23,7 +26,7 @@ public class CallHasRescueVehicle {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("rescueVehicleNumber")
-    private RescueVehicle rescue_vehicle;
+    private RescueVehicle rescueVehicle;
 
     @Column(name = "departure_time", nullable = false)
     private LocalDateTime departureTime;
@@ -31,10 +34,12 @@ public class CallHasRescueVehicle {
     @Column(name = "return_time", nullable = false)
     private LocalDateTime returnTime;
 
-    @Override
-    public String toString() {
-        return "RescueVehicle{" +
-                "number=" + rescue_vehicle.getNumber() +
-                '}';
+    public CallHasRescueVehicle(CallRescueVehicleId id, Call call, RescueVehicle rescueVehicle,
+                                LocalDateTime departureTime, LocalDateTime returnTime) {
+        this.id = id;
+        this.call = call;
+        this.rescueVehicle = rescueVehicle;
+        this.departureTime = departureTime;
+        this.returnTime = returnTime;
     }
 }

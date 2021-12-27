@@ -3,6 +3,8 @@ package ua.lviv.iot.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -10,8 +12,6 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(of = "id")
-@EqualsAndHashCode(of = "id")
 public class CallAddress {
 
     @Id
@@ -19,9 +19,13 @@ public class CallAddress {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Size(min = 3, max = 100, message = "must be from 3 to 100 chars")
+    @NotBlank(message = "is required and must not be blank")
     @Column(name = "region", nullable = false)
     private String region;
 
+    @Size(min = 3, max = 100, message = "must be from 3 to 100 chars")
+    @NotBlank(message = "is required and must not be blank")
     @Column(name = "city_or_village", nullable = false)
     private String cityOrVillage;
 
